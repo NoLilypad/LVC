@@ -1,5 +1,6 @@
 import os
 import shutil
+import sys
 
 VERDIR = 'ver'
 
@@ -17,5 +18,13 @@ def init():
         print('Repo created in current directory')
 
 
+def main():
+    # Get first arg
+    arg = sys.argv[1]
+    print("Argument passé",arg)
+    if arg == 'init':
+        init()
 
-init()
+
+if __name__ == "__main__":
+    main()
