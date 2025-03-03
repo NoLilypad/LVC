@@ -18,7 +18,8 @@ def loadCommands():
     functionToCommands = {
         modules.init: ['init', 'i'],
         modules.version: ['commit','com','c','ver','v'],
-        modules.destroy: ['destroy', 'd']
+        modules.destroy: ['destroy', 'd'],
+        modules.list: ['list', 'l']
     }
 
     # Créer un dictionnaire pour mapper chaque commande/alias à sa fonction
@@ -38,7 +39,6 @@ def main(commandMap):
     if len(args) == 1:
         modules.home()
         return
-    # Gets first argument
     command = args[1]
     arguments = args[2:]
     if command not in commandMap:

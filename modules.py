@@ -73,6 +73,26 @@ def version(CONFIG, arguments):
             shutil.copytree(objectPath, f'{versionDirectoryPath}/{object}', copy_function=shutil.copy2)
     print('Done ! ')
 
-    
+
+
+def list(CONFIG, arguments):
+    VERDIR = CONFIG['VERDIR']
+    DATAFILE = CONFIG['DATAFILE']
+    # Get working directory
+    workingDirectory = os.getcwd()
+    # Checks if versionner directory exists
+    isInit = os.path.isdir(f'{workingDirectory}/{VERDIR}')
+    if not isInit:
+        print('No repo in current folder')
+        return
+    try:
+        with open(f'{workingDirectory}/{VERDIR}/{DATAFILE}','r') as file:
+            data = file.readlines()
+    except:
+        print(f'Could not read ./{VERDIR}/{DATAFILE}')
+    print('VERSION ID   COMMENT')
+    for version in data:
+        print(f'{version[:8]}     {version[9:]}')
+
 
 
