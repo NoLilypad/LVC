@@ -1,30 +1,34 @@
 import os
 import shutil
 import sys
+import modules
 
 VERDIR = 'ver'
 
-def init():
-    # Get working directory
-    workingDirectory = os.getcwd()
-    # Checks if versionner directory exists
-    isInit = os.path.isdir(f'{workingDirectory}/{VERDIR}')
-    if isInit:
-        print('Repo already created in current folder')
-    else:
-        os.mkdir(f'{workingDirectory}/{VERDIR}')
-        with open('./ver/hello','w') as file:
-            file.writelines('')
-        print('Repo created in current directory')
+def uk():
+    print('???')
+
+
+# Dictionnaire des fonctions et leur commandes associées
+functionToCommands = {
+    modules.init: ['init', 'i'],
+    uk: []
+}
+
+# Créer un dictionnaire pour mapper chaque commande/alias à sa fonction
+commandMap = {}
+for fonction, commands in functionToCommands.items():
+    for command in commands:
+        commandMap[command] = fonction
 
 
 def main():
     # Get first arg
     arg = sys.argv[1]
-    print("Argument passé",arg)
-    if arg == 'init':
-        init()
+    commandMap[arg](VERDIR)
+    
 
 
 if __name__ == "__main__":
-    main()
+    #main()
+    pass
