@@ -43,7 +43,6 @@ def destroy(CONFIG):
 
 
 def version(CONFIG):
-    # Checks if versionner directory exists
     VERDIR = CONFIG['VERDIR']
     # Get working directory
     workingDirectory = os.getcwd()
@@ -61,7 +60,6 @@ def version(CONFIG):
     versionDirectoryPath = f'{workingDirectory}/{VERDIR}/{versionId}'
     os.mkdir(versionDirectoryPath)
     # Copies files in version directory
-    print(objects)
     for object in objects:
         objectPath = f'{workingDirectory}/{object}'
         if os.path.isfile(objectPath):
