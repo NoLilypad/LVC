@@ -5,7 +5,7 @@ import modules
 
 
 CONFIG = {
-    'VERDIR': 'ver',
+    'VERDIR': '.ver',
     'DATAFILE': 'data'
 }
 
@@ -17,9 +17,10 @@ def loadCommands():
     # Dictionnaire des fonctions et leur commandes associées
     functionToCommands = {
         modules.init: ['init', 'i'],
-        modules.version: ['commit','com','c','ver','v'],
+        modules.version: ['version','v'],
         modules.destroy: ['destroy', 'd'],
-        modules.list: ['list', 'l']
+        modules.list: ['list', 'l'],
+        modules.switch: ['switch','s']
     }
 
     # Créer un dictionnaire pour mapper chaque commande/alias à sa fonction

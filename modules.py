@@ -43,7 +43,10 @@ def destroy(CONFIG, arguments):
 
 
 def version(CONFIG, arguments):
-    comment = arguments[0]
+    try:
+        comment = arguments[0] 
+    except:
+        comment = ''
     VERDIR = CONFIG['VERDIR']
     DATAFILE = CONFIG['DATAFILE']
     # Get working directory
@@ -72,6 +75,56 @@ def version(CONFIG, arguments):
         if os.path.isdir(objectPath):
             shutil.copytree(objectPath, f'{versionDirectoryPath}/{object}', copy_function=shutil.copy2)
     print('Done ! ')
+
+
+
+
+def switch(CONFIG, arguments):
+    VERDIR = CONFIG['VERDIR']
+    DATAFILE = CONFIG['DATAFILE']
+    # Get working directory
+    workingDirectory = os.getcwd()
+    # Checks if versionner directory exists
+    isInit = os.path.isdir(f'{workingDirectory}/{VERDIR}')
+    if not isInit:
+        print('No repo in current folder')
+        return
+    if len(arguments) == 0:
+        print('Please provide version ID')
+    targetVersionId = arguments[0]
+    # Checks version id provided
+    try:
+        with open(f'{workingDirectory}/{VERDIR}/{DATAFILE}','r') as file:
+            data = file.readlines()
+    except:
+        print(f'Could not read ./{VERDIR}/{DATAFILE}')
+    versions = []
+    for line in data:
+        versions.append(line[:8])
+    if targetVersionId not in versions:
+        print('Version ID not found')
+        return
+    # Remove current files
+    objects = os.listdir(workingDirectory)
+    objects.remove(VERDIR)
+    for object in objects:
+        objectPath = f'{workingDirectory}/{object}'
+        if os.path.isfile(objectPath):
+            os.remove(objectPath)
+        if os.path.isdir(objectPath):
+            shutil.rmtree(objectPath)
+    # Copies version to destination
+    objects = os.listdir(f'{workingDirectory}/{VERDIR}/{targetVersionId}')
+    for object in objects:
+        objectPath = f'{workingDirectory}/{VERDIR}/{targetVersionId}/{object}'
+        if os.path.isfile(objectPath):
+            shutil.copy2(objectPath, workingDirectory)
+        if os.path.isdir(objectPath):
+            shutil.copytree(objectPath, f'{workingDirectory}/{object}', copy_function=shutil.copy2)
+    
+
+
+        
 
 
 
