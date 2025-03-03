@@ -1,6 +1,6 @@
 # Versionner
 
-A simple local version manager
+A simple local code version manager.
 
 ## Installation
 
@@ -15,7 +15,7 @@ cd versionner
 You can then either : 
 - Execute the versionner using python : 
 ```sh
-python /the/path/to/versionner/versionner.py you_command
+python /the/path/to/versionner/versionner.py your_command
 ```
 
 - Build the file with [pyinstaller](https://pyinstaller.org/en/stable/), then making it a command by placing it in /usr/bin for example
@@ -34,6 +34,23 @@ sudo cp dist/ver /usr/bin
 | `switch`          |  `s`     | switches to specifi version | version ID
 | `destroy`         | `d`      | deletes the config of local version manager| - 
 
+
+## Comments
+
+Currently (1.0) no caching, no branches, no merging, no remote access or .ignore file.
+
+## TODO
+
+### Priority
+
+- [ ] Add caching
+- [ ] Add linking between versions
+- [ ] Add ignore method
+
+### Long-term
+- [ ] Add remote access
+- [ ] Add merging functionality
+- [ ] Add autocompletion 
 
 
 
