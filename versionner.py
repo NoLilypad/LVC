@@ -38,13 +38,14 @@ def main(commandMap):
     if len(args) == 1:
         modules.home()
         return
-    # Gets firt argument
+    # Gets first argument
     command = args[1]
+    arguments = args[2:]
     if command not in commandMap:
         modules.unknownCommand()
         return
     else:
-        commandMap[command](CONFIG)
+        commandMap[command](CONFIG, arguments)
         return
     
 

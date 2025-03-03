@@ -1,7 +1,7 @@
 import os
 import shutil
 import time
-
+import uuid
 
 def home():
     print('Versionner 1.0')
@@ -11,7 +11,7 @@ def unknownCommand():
 
 
 
-def init(CONFIG):
+def init(CONFIG, arguments):
     VERDIR = CONFIG['VERDIR']
     DATAFILE = CONFIG['DATAFILE']
     # Get working directory
@@ -26,7 +26,7 @@ def init(CONFIG):
         file.writelines('')
     print('Repo created in current directory')
 
-def destroy(CONFIG):
+def destroy(CONFIG, arguments):
     VERDIR = CONFIG['VERDIR']
     # Get working directory
     workingDirectory = os.getcwd()
@@ -42,8 +42,10 @@ def destroy(CONFIG):
     
 
 
-def version(CONFIG):
+def version(CONFIG, arguments):
+    comment = arguments[0]
     VERDIR = CONFIG['VERDIR']
+    DATAFILE = CONFIG['DATAFILE']
     # Get working directory
     workingDirectory = os.getcwd()
     # Checks if versionner directory exists
@@ -55,7 +57,10 @@ def version(CONFIG):
     objects = os.listdir(workingDirectory)
     objects.remove(VERDIR)
     # Creates version ID
-    versionId = time.time()
+    versionId = str(uuid.uuid4())[:8]
+    # Writes in data
+    with open(f'{workingDirectory}/{VERDIR}/{DATAFILE}','a') as file:
+        file.writelines(f'{versionId}:{comment}\n')
     # Creates directory for files in VERDIR
     versionDirectoryPath = f'{workingDirectory}/{VERDIR}/{versionId}'
     os.mkdir(versionDirectoryPath)
