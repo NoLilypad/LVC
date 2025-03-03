@@ -92,7 +92,7 @@ def list(CONFIG, arguments):
         print(f'Could not read ./{VERDIR}/{DATAFILE}')
     print('VERSION ID   COMMENT')
     for version in data:
-        print(f'{version[:8]}     {version[9:]}')
+        print(f'{version[:8]}     {version[9:][:-1]}')
 
 
 
