@@ -6,7 +6,8 @@ import modules
 
 CONFIG = {
     'VERDIR': '.ver',
-    'DATAFILE': 'data'
+    'DATAFILE': 'data',
+    'VERSION': '2.0'
 }
 
 
@@ -38,7 +39,7 @@ def main(commandMap):
     args = sys.argv
     # If called without arguments
     if len(args) == 1:
-        modules.home()
+        modules.home(CONFIG)
         return
     command = args[1]
     arguments = args[2:]
