@@ -65,10 +65,12 @@ def createVersionFile(workingDirectory, LVC_DIR, VERSIONS_DIR, versionHash, elem
             file.writelines(f'{elementHash}|{elementPath}\n') 
 
 def writeVersion(directory, LVC_DIR, DATA_FILE, versionHash, comment):
-        with open(os.path.join(directory, LVC_DIR, DATA_FILE), 'a') as file:
-            timestamp = int(time.time())
-            file.writelines(f'{versionHash}|{timestamp}|{comment}\n')
+    with open(os.path.join(directory, LVC_DIR, DATA_FILE), 'a') as file:
+        timestamp = int(time.time())
+        file.writelines(f'{versionHash}|{timestamp}|{comment}\n')
 
+def readDataFile(dataFilePath):
+    pass
 
 
 
