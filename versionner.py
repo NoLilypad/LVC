@@ -1,13 +1,17 @@
 import os
 import shutil
 import sys
-import modules
+import commands
 
 
 CONFIG = {
     'VERDIR': '.ver',
     'DATAFILE': 'data',
-    'VERSION': '2.0'
+    'VERSION': '2.0',
+    'IGNOREFILE': 'ignore',
+    'FILE_HASH_ALGO': 'sha256',
+    'VERSIONS_DIR': 'versions',
+    'OBJECTS_DIR' : 'objects'
 }
 
 
@@ -17,17 +21,17 @@ CONFIG = {
 def loadCommands():
     # Dictionnaire des fonctions et leur commandes associées
     functionToCommands = {
-        modules.init: ['init', 'i'],
-        modules.version: ['version','v'],
-        modules.destroy: ['destroy', 'd'],
-        modules.list: ['list', 'l'],
-        modules.switch: ['switch','s']
+        commands.init: ['init', 'i'],
+        commands.version: ['version','v'],
+        commands.destroy: ['destroy', 'd'],
+        commands.list: ['list', 'l'],
+        commands.switch: ['switch','s']
     }
 
     # Créer un dictionnaire pour mapper chaque commande/alias à sa fonction
     commandMap = {}
-    for fonction, commands in functionToCommands.items():
-        for command in commands:
+    for fonction, comms in functionToCommands.items():
+        for command in comms:
             commandMap[command] = fonction
     return commandMap
 
@@ -39,12 +43,12 @@ def main(commandMap):
     args = sys.argv
     # If called without arguments
     if len(args) == 1:
-        modules.home(CONFIG)
+        commands.home(CONFIG)
         return
     command = args[1]
     arguments = args[2:]
     if command not in commandMap:
-        modules.unknownCommand()
+        commands.unknownCommand()
         return
     else:
         commandMap[command](CONFIG, arguments)
