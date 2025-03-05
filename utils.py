@@ -39,17 +39,14 @@ def getFileHash(directory, filePath, algorithm='sha256'):
             hashFunction.update(chunk)
     return(hashFunction.hexdigest())
 
-def getVersionHash(elementsInfo):
-    sha256 = hashlib.sha256()
+def getVersionHash(elementsInfo, algorithm='sha256'):
+    hashFunction = hashlib.new(algorithm)
     for element in elementsInfo:
-        sha256.update(element[0].encode('utf-8'))
-        sha256.update(element[1].encode('utf-8'))
-    sha256.update(str(time.time()).encode('utf-8'))
-    return(sha256.hexdigest())
+        hashFunction.update(element[0].encode('utf-8'))
+        hashFunction.update(element[1].encode('utf-8'))
+    hashFunction.update(str(time.time()).encode('utf-8'))
+    return(hashFunction.hexdigest())
 
-def copyAndRename(src, dst, newName):
-    shutil.copy2(src, dst)
-    
 
 
 

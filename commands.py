@@ -21,6 +21,7 @@ def init(CONFIG, arguments):
     VERDIR = CONFIG['VERDIR']
     DATAFILE = CONFIG['DATAFILE']
     VERSIONS_DIR = CONFIG['VERSIONS_DIR']
+    OBJECTS_DIR = CONFIG['OBJECTS_DIR']
     workingDirectory = os.getcwd()
     # Checks if versionner directory exists
     isInit = os.path.isdir(os.path.join(workingDirectory, VERDIR))
@@ -35,7 +36,8 @@ def init(CONFIG, arguments):
         file.writelines('')
     # Creates the versions directory
     os.mkdir(os.path.join(workingDirectory, VERDIR, VERSIONS_DIR))
-
+    # Creates the objects directory
+    os.mkdir(os.path.join(workingDirectory, VERDIR, OBJECTS_DIR))
     print('Repo created in current directory')
 
 def destroy(CONFIG, arguments):
@@ -57,6 +59,7 @@ def version(CONFIG, arguments):
     VERDIR = CONFIG['VERDIR']
     DATAFILE = CONFIG['DATAFILE']
     HASH_ALGO = CONFIG['FILE_HASH_ALGO']
+    OBJECTS_DIR = CONFIG['OBJECTS_DIR']
     workingDirectory = os.getcwd()
     # Récupération du commentaire
     if len(arguments) >= 1:
@@ -79,9 +82,18 @@ def version(CONFIG, arguments):
 
     # Generates version id 
     versionString = utils.getVersionHash(elementsInfo)
-    print(versionString)
 
-    # 
+    # # Copies file in cache if not already present
+    for element in elementsInfo:
+        elementPath, elementHash = element
+        print(elementPath)
+        if not os.path.isfile(os.path.join(workingDirectory, VERDIR, OBJECTS_DIR, elementHash)):
+            with open(os.path.join(workingDirectory, elementPath), 'r') as file:
+                data = file.readlines()
+            print(data)
+            with open(os.path.join(VERDIR, OBJECTS_DIR, elementHash), 'w') as file:
+                file.writelines(data)
+
     
     
 
