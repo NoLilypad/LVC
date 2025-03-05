@@ -69,7 +69,9 @@ def writeVersion(dataFilePath, versionHash, comment):
         timestamp = int(time.time())
         file.writelines(f'{versionHash}|{timestamp}|{comment}\n')
 
-def readDataFile(dataFilePath):
+
+
+def readVersion(dataFilePath):
     pass
 
 

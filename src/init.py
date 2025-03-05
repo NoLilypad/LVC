@@ -4,17 +4,20 @@ import shutil
 
 
 def init(CONFIG, arguments):
-    LVC_DIR = CONFIG['LVC_DIR']
-    DATA_FILE = CONFIG['DATA_FILE']
-    VERSIONS_DIR = CONFIG['VERSIONS_DIR']
-    OBJECTS_DIR = CONFIG['OBJECTS_DIR']
-    IGNORE_FILE = CONFIG['IGNORE_FILE']
+    HASH_ALGO = CONFIG['HASH_ALGO']
     workingDirectory = os.getcwd()
+    lvcDirectory = os.path.join(workingDirectory)
+    dataFilePath = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['DATA_FILE'])
+    versionsDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['VERSIONS_DIR'])
+    objectsDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['OBJECTS_DIR'])
+    ignoreFilePath = os.path.join(workingDirectory, CONFIG['IGNORE_FILE'])
+
     # Get no ignore flag
     if len(arguments) >= 1 and arguments[0] == '-n':
         noIgnore = True
     else:
         noIgnore = False
+
     # Checks if versionner directory exists
     isInit = os.path.isdir(os.path.join(workingDirectory, LVC_DIR))
     if isInit:
@@ -22,21 +25,21 @@ def init(CONFIG, arguments):
         return
     
     # Creates LV_DIR
-    os.mkdir(os.path.join(workingDirectory, LVC_DIR))
+    os.mkdir(lvcDirectory)
 
     # Creates the data file
-    with open(os.path.join(workingDirectory, LVC_DIR, DATA_FILE),'w') as file:
+    with open(dataFilePath,'w') as file:
         file.writelines('')
 
     # Creates the versions directory
-    os.mkdir(os.path.join(workingDirectory, LVC_DIR, VERSIONS_DIR))
+    os.mkdir(versionsDirectory)
 
     # Creates the objects directory
-    os.mkdir(os.path.join(workingDirectory, LVC_DIR, OBJECTS_DIR))
+    os.mkdir(objectsDirectory)
 
     # Creates a .ignore file
     if not noIgnore:
-        with open(os.path.join(workingDirectory, IGNORE_FILE),'w') as file:
+        with open(ignoreFilePath,'w') as file:
             file.writelines('.lvc/ \n')
 
     print('Repo created in current directory')

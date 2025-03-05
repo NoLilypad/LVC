@@ -11,7 +11,6 @@ def version(CONFIG, arguments):
     versionsDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['VERSIONS_DIR'])
     objectsDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['OBJECTS_DIR'])
     ignoreFilePath = os.path.join(workingDirectory, CONFIG['IGNORE_FILE'])
-
     # Récupération du commentaire
     if len(arguments) >= 1:
         comment = arguments[0]
