@@ -59,6 +59,7 @@ def version(CONFIG, arguments):
     VERDIR = CONFIG['VERDIR']
     DATAFILE = CONFIG['DATAFILE']
     HASH_ALGO = CONFIG['FILE_HASH_ALGO']
+    VERSIONS_DIR = CONFIG['VERSIONS_DIR']
     OBJECTS_DIR = CONFIG['OBJECTS_DIR']
     workingDirectory = os.getcwd()
     # Récupération du commentaire
@@ -81,7 +82,7 @@ def version(CONFIG, arguments):
         elementsInfo.append(fileInfo)
 
     # Generates version id 
-    versionString = utils.getVersionHash(elementsInfo)
+    versionId = utils.getVersionHash(elementsInfo, HASH_ALGO)
 
     # # Copies file in cache if not already present
     for element in elementsInfo:
@@ -93,6 +94,16 @@ def version(CONFIG, arguments):
             print(data)
             with open(os.path.join(VERDIR, OBJECTS_DIR, elementHash), 'w') as file:
                 file.writelines(data)
+    
+    # Writes version data in version file
+    with open(os.path.join(workingDirectory, VERDIR, VERSIONS_DIR, versionId), 'w') as file:
+        for element in elementsInfo:
+            elementPath, elementHash = element
+            file.writelines(f'{elementHash}|{elementPath}\n') 
+
+    # Writes version in data
+    with open(os.path.join(workingDirectory, VERDIR, DATAFILE), 'a') as file:
+        file.writelines(f'{versionId}|{comment}\n')
 
     
     
