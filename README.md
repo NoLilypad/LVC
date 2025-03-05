@@ -48,6 +48,7 @@ Currently (1.0) no caching, no branches, no merging, no remote access or .ignore
 
 ## Structure 
 
+```bash
 workingDirectory/  
 ├── .lvc/  
 │   ├── data   
@@ -61,6 +62,7 @@ workingDirectory/
 ├── SomeFileToTrack  
 └── SomeFolder  
     └── AnotherFile  
+```
 
 
 
