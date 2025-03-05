@@ -41,20 +41,13 @@ def version(CONFIG, arguments):
     versionHash = utils.getVersionHash(elementsInfo, HASH_ALGO)
 
     # Copies file in objects if not already present
-    for element in elementsInfo:
-        elementPath, elementHash = element
-        elementObjectPath = os.path.join(workingDirectory, LVC_DIR, OBJECTS_DIR, elementHash)
-        if not os.path.isfile(elementObjectPath):
-            utils.createObject(elementPath, elementHash, os.path.join(workingDirectory, LVC_DIR, OBJECTS_DIR))
+    utils.createObjects(workingDirectory, LVC_DIR, OBJECTS_DIR, elementsInfo)
 
 
     # Writes version data in version file
-    with open(os.path.join(workingDirectory, LVC_DIR, VERSIONS_DIR, versionHash), 'w') as file:
-        for element in elementsInfo:
-            elementPath, elementHash = element
-            file.writelines(f'{elementHash}|{elementPath}\n') 
+    utils.createVersionFile(workingDirectory, LVC_DIR, VERSIONS_DIR, versionHash, elementsInfo)
+
 
     # Writes version in data
-    with open(os.path.join(workingDirectory, LVC_DIR, DATA_FILE), 'a') as file:
-        file.writelines(f'{versionHash}|{comment}\n')
+    utils.writeVersion(workingDirectory, LVC_DIR, DATA_FILE, versionHash, comment)
 

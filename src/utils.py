@@ -51,6 +51,26 @@ def createObject(elementPath, elementHash, objectsDirectory):
     with open(os.path.join(objectsDirectory, elementHash), 'w') as file:
         file.writelines(data)
 
+def createObjects(workingDirectory, LVC_DIR, OBJECTS_DIR, elementsInfo):
+    for element in elementsInfo:
+        elementPath, elementHash = element
+        elementObjectPath = os.path.join(workingDirectory, LVC_DIR, OBJECTS_DIR, elementHash)
+        if not os.path.isfile(elementObjectPath):
+            createObject(elementPath, elementHash, os.path.join(workingDirectory, LVC_DIR, OBJECTS_DIR))
+
+def createVersionFile(workingDirectory, LVC_DIR, VERSIONS_DIR, versionHash, elementsInfo):
+    with open(os.path.join(workingDirectory, LVC_DIR, VERSIONS_DIR, versionHash), 'w') as file:
+        for element in elementsInfo:
+            elementPath, elementHash = element
+            file.writelines(f'{elementHash}|{elementPath}\n') 
+
+def writeVersion(directory, LVC_DIR, DATA_FILE, versionHash, comment):
+        with open(os.path.join(directory, LVC_DIR, DATA_FILE), 'a') as file:
+            timestamp = int(time.time())
+            file.writelines(f'{versionHash}|{timestamp}|{comment}\n')
+
+
+
 
 
 
