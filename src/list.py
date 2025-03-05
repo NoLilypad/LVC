@@ -19,9 +19,4 @@ def list(CONFIG, arguments):
 
     # Print first line
     print('VERSION ID   COMMENT')
-
-    with open(os.path.join(workingDirectory,LVC_DIR,DATA_FILE),'r') as file:
-        data = file.readlines()    
-    for version in data:
-        print(f'{version[:8]}     {version[9:][:-1]}')
     
