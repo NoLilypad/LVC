@@ -46,9 +46,9 @@ def getVersionHash(elementsInfo, algorithm='sha256'):
     return(hashFunction.hexdigest())
 
 def createObject(elementPath, elementHash, objectsDirectory):
-    with open(elementPath, 'r') as file:
+    with open(elementPath, 'rb') as file:
                 data = file.readlines()
-    with open(os.path.join(objectsDirectory, elementHash), 'w') as file:
+    with open(os.path.join(objectsDirectory, elementHash), 'wb') as file:
         file.writelines(data)
 
 def createObjects(workingDirectory, LVC_DIR, OBJECTS_DIR, elementsInfo):
