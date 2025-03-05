@@ -29,9 +29,9 @@ def getElements(directory, ignorePatterns):
                 elements.append(relPath)
     return sorted(elements)
 
-def getFileHash(directory, filePath, algorithm='sha256'):
+def getFileHash(filePath, algorithm='sha256'):
     hashFunction = hashlib.new(algorithm)
-    with open(os.path.join(directory,filePath),'rb') as file:
+    with open(filePath,'rb') as file:
         # Read the file in chunks of 8192 bytes
         while chunk := file.read(8192):
             hashFunction.update(chunk)
@@ -51,21 +51,21 @@ def createObject(elementPath, elementHash, objectsDirectory):
     with open(os.path.join(objectsDirectory, elementHash), 'wb') as file:
         file.writelines(data)
 
-def createObjects(workingDirectory, LVC_DIR, OBJECTS_DIR, elementsInfo):
+def createObjects(objectsDirectory, elementsInfo):
     for element in elementsInfo:
         elementPath, elementHash = element
-        elementObjectPath = os.path.join(workingDirectory, LVC_DIR, OBJECTS_DIR, elementHash)
+        elementObjectPath = os.path.join(objectsDirectory, elementHash)
         if not os.path.isfile(elementObjectPath):
-            createObject(elementPath, elementHash, os.path.join(workingDirectory, LVC_DIR, OBJECTS_DIR))
+            createObject(elementPath, elementHash, objectsDirectory)
 
-def createVersionFile(workingDirectory, LVC_DIR, VERSIONS_DIR, versionHash, elementsInfo):
-    with open(os.path.join(workingDirectory, LVC_DIR, VERSIONS_DIR, versionHash), 'w') as file:
+def createVersionFile(versionPath, elementsInfo):
+    with open(versionPath, 'w') as file:
         for element in elementsInfo:
             elementPath, elementHash = element
             file.writelines(f'{elementHash}|{elementPath}\n') 
 
-def writeVersion(directory, LVC_DIR, DATA_FILE, versionHash, comment):
-    with open(os.path.join(directory, LVC_DIR, DATA_FILE), 'a') as file:
+def writeVersion(dataFilePath, versionHash, comment):
+    with open(dataFilePath, 'a') as file:
         timestamp = int(time.time())
         file.writelines(f'{versionHash}|{timestamp}|{comment}\n')
 
