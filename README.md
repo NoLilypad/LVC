@@ -39,6 +39,31 @@ sudo cp dist/ver /usr/bin
 
 Currently (1.0) no caching, no branches, no merging, no remote access or .ignore file.
 
+
+## Releases
+
+- **v1.0** : No caching
+- **v2.0** : Added caching feature
+
+
+## Structure 
+
+workingDirectory/  
+├── .lvc/  
+│   ├── data   
+│   ├── versions/  
+│   │   ├── versionHash1  
+│   │   ├── versionHash2  
+│   │   └── versionHash3  
+│   └── objects  
+│       ├── objectHash1  
+│       └── objectHash2  
+├── SomeFileToTrack  
+└── SomeFolder  
+    └── AnotherFile  
+
+
+
 ## TODO
 
 ### Priority
