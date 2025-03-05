@@ -3,7 +3,7 @@ import shutil
 
 def destroy(CONFIG, arguments):
     workingDirectory = os.getcwd()
-    lvcDirectory = os.path.join(workingDirectory)    # Checks if versionner directory exists
+    lvcDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'])
     isInit = os.path.isdir(lvcDirectory)
     if isInit:
         shutil.rmtree(lvcDirectory)
@@ -12,3 +12,6 @@ def destroy(CONFIG, arguments):
     else:
         print('No repo in current directory')
         return
+    
+
+    

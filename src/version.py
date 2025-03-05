@@ -1,12 +1,13 @@
 import os
 import shutil
 import utils
+import time
 
 
 def version(CONFIG, arguments):
     HASH_ALGO = CONFIG['HASH_ALGO']
     workingDirectory = os.getcwd()
-    lvcDirectory = os.path.join(workingDirectory)
+    lvcDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'])
     dataFilePath = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['DATA_FILE'])
     versionsDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['VERSIONS_DIR'])
     objectsDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['OBJECTS_DIR'])
@@ -50,6 +51,6 @@ def version(CONFIG, arguments):
 
 
     # Writes version in data
-    utils.writeVersion(dataFilePath, versionHash, comment)
+    utils.writeVersion(dataFilePath, [versionHash, comment, int(time.time())])
 
 

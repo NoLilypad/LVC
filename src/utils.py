@@ -4,6 +4,7 @@ import fnmatch
 import re
 import hashlib 
 import time
+import csv
 
 def readIgnore(ignoreFilePath):
     with open(ignoreFilePath, 'r') as ignore_file:
@@ -64,16 +65,20 @@ def createVersionFile(versionPath, elementsInfo):
             elementPath, elementHash = element
             file.writelines(f'{elementHash}|{elementPath}\n') 
 
-def writeVersion(dataFilePath, versionHash, comment):
-    with open(dataFilePath, 'a') as file:
-        timestamp = int(time.time())
-        file.writelines(f'{versionHash}|{timestamp}|{comment}\n')
+def writeVersion(filePath, data):
+    with open(filePath, 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(data)
 
 
 
-def readVersion(dataFilePath):
-    pass
-
+def readVersion(filePath):
+    data = []
+    with open(filePath, 'r', newline='') as file:
+        reader = csv.reader(file)
+        for line in reader:
+            data.append(line)
+    return data
 
 
 
