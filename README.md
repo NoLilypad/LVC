@@ -1,6 +1,6 @@
-# Versionner
+# LVC : a Lightweight Version Control
 
-A simple local code version manager.
+A simple local code version control manager made with python. 
 
 ## Installation
 
@@ -15,13 +15,13 @@ cd versionner
 You can then either : 
 - Execute the versionner using python : 
 ```sh
-python /the/path/to/versionner/versionner.py your_command
+python /the/path/to/versionner/lvc.py your_command
 ```
 
-- Build the file with [pyinstaller](https://pyinstaller.org/en/stable/), then making it a command by placing it in /usr/bin for example
+- Build the file with [pyinstaller](https://pyinstaller.org/en/stable/), then making it a command by placing it in /usr/local/bin for example
 ```sh
-pyinstaller --onefile --name=ver versionner.py
-sudo cp dist/ver /usr/bin
+pyinstaller --onefile --name=lvc lvc.py
+sudo cp dist/ver /usr/local/bin
 ```
 
 ## Commands
