@@ -5,9 +5,8 @@ import re
 import hashlib 
 import time
 
-'''def readIgnore(workingDirectory, CONFIG):
-    ignoreFile = CONFIG['IGNOREFILE']
-    with open(os.path.join(workingDirectory, ignoreFile), 'r') as ignore_file:
+def readIgnore(ignoreFilePath):
+    with open(ignoreFilePath, 'r') as ignore_file:
         ignorePatterns = [line.strip() for line in ignore_file if line.strip()]
     
     for pattern in ignorePatterns:
@@ -17,18 +16,18 @@ import time
             continue
 
 
-    return ignorePatterns'''
+    return ignorePatterns
 
 
 
-def getElements(directory):
-    # Collecte des éléments (fichiers et dosiers vides)
+def getElements(directory, ignorePatterns):
     elements = []
     for root, dirs, files in os.walk(directory):
         for file in files:
             completePath = os.path.join(root,file)
             relPath = os.path.relpath(completePath, directory)
-            elements.append(relPath)
+            if not any(pattern in relPath for pattern in ignorePatterns):
+                elements.append(relPath)
     return sorted(elements)
 
 def getFileHash(directory, filePath, algorithm='sha256'):
@@ -46,6 +45,12 @@ def getVersionHash(elementsInfo, algorithm='sha256'):
         hashFunction.update(element[1].encode('utf-8'))
     hashFunction.update(str(time.time()).encode('utf-8'))
     return(hashFunction.hexdigest())
+
+def createObject(elementPath, elementHash, objectsDirectory):
+    with open(elementPath, 'r') as file:
+                data = file.readlines()
+    with open(os.path.join(objectsDirectory, elementHash), 'w') as file:
+        file.writelines(data)
 
 
 

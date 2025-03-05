@@ -5,11 +5,11 @@ import commands
 
 
 CONFIG = {
-    'VERDIR': '.ver',
-    'DATAFILE': 'data',
+    'LVC_DIR': '.lvc',
+    'DATA_FILE': 'data',
     'VERSION': '2.0',
-    'IGNOREFILE': 'ignore',
-    'FILE_HASH_ALGO': 'sha256',
+    'IGNORE_FILE': 'ignore',
+    'HASH_ALGO': 'sha256',
     'VERSIONS_DIR': 'versions',
     'OBJECTS_DIR' : 'objects'
 }
