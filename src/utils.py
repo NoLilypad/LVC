@@ -61,9 +61,11 @@ def createObjects(objectsDirectory, elementsInfo):
 
 def createVersionFile(versionPath, elementsInfo):
     with open(versionPath, 'w') as file:
+        writer = csv.writer(file)
         for element in elementsInfo:
             elementPath, elementHash = element
-            file.writelines(f'{elementHash}|{elementPath}\n') 
+            writer.writerow([elementHash, elementPath])
+             
 
 def writeVersion(filePath, data):
     with open(filePath, 'a', newline='') as file:
