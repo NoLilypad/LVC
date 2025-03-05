@@ -15,7 +15,7 @@ CONFIG = {
     'LVC_DIR': '.lvc',
     'DATA_FILE': 'data',
     'VERSION': '2.0',
-    'IGNORE_FILE': 'ignore',
+    'IGNORE_FILE': '.lvcignore',
     'HASH_ALGO': 'sha256',
     'VERSIONS_DIR': 'versions',
     'OBJECTS_DIR' : 'objects'

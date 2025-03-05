@@ -14,8 +14,6 @@ def readIgnore(ignoreFilePath):
             pass
         except re.error:
             continue
-
-
     return ignorePatterns
 
 
@@ -26,7 +24,8 @@ def getElements(directory, ignorePatterns):
         for file in files:
             completePath = os.path.join(root,file)
             relPath = os.path.relpath(completePath, directory)
-            if not any(pattern in relPath for pattern in ignorePatterns):
+            # Gestion de IGNORE_FILE
+            if not any((relPath.endswith(pattern) or (pattern.endswith('/') and pattern in relPath)) for pattern in ignorePatterns):
                 elements.append(relPath)
     return sorted(elements)
 

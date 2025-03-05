@@ -57,3 +57,4 @@ def version(CONFIG, arguments):
     # Writes version in data
     with open(os.path.join(workingDirectory, LVC_DIR, DATA_FILE), 'a') as file:
         file.writelines(f'{versionHash}|{comment}\n')
+
