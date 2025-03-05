@@ -19,7 +19,7 @@ def init(CONFIG, arguments):
         noIgnore = False
 
     # Checks if versionner directory exists
-    isInit = os.path.isdir(os.path.join(workingDirectory, LVC_DIR))
+    isInit = os.path.isdir(lvcDirectory)
     if isInit:
         print('Repo already created in current folder')
         return
