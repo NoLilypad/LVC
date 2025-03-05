@@ -23,6 +23,7 @@ def version(CONFIG, arguments):
         return
     
     # Get ignore patterns list
+    ignorePatterns = []
     ignoreFilePath = os.path.join(workingDirectory, IGNORE_FILE)
     if os.path.isfile(ignoreFilePath):
         ignorePatterns = utils.readIgnore(ignoreFilePath)
