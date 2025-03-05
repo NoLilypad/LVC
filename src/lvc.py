@@ -2,12 +2,12 @@ import os
 import shutil
 import sys
 
-
-import commands
-
+import misc
 import init
 import destroy
 import version
+import list
+import switch
 
 
 
@@ -31,8 +31,8 @@ def loadCommands():
         init.init: ['init', 'i'],
         version.version: ['version','v'],
         destroy.destroy: ['destroy', 'd'],
-        commands.list: ['list', 'l'],
-        commands.switch: ['switch','s']
+        list.list: ['list', 'l'],
+        switch.switch: ['switch','s']
     }
 
     # Créer un dictionnaire pour mapper chaque commande/alias à sa fonction
@@ -50,12 +50,12 @@ def main(commandMap):
     args = sys.argv
     # If called without arguments
     if len(args) == 1:
-        commands.home(CONFIG)
+        misc.home(CONFIG)
         return
     command = args[1]
     arguments = args[2:]
     if command not in commandMap:
-        commands.unknownCommand()
+        misc.unknownCommand()
         return
     else:
         commandMap[command](CONFIG, arguments)
