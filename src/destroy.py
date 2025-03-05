@@ -2,12 +2,11 @@ import os
 import shutil
 
 def destroy(CONFIG, arguments):
-    LVC_DIR = CONFIG['LVC_DIR']
     workingDirectory = os.getcwd()
-    # Checks if versionner directory exists
-    isInit = os.path.isdir(os.path.join(workingDirectory, LVC_DIR))
+    lvcDirectory = os.path.join(workingDirectory)    # Checks if versionner directory exists
+    isInit = os.path.isdir(lvcDirectory)
     if isInit:
-        shutil.rmtree(os.path.join(workingDirectory, LVC_DIR))
+        shutil.rmtree(lvcDirectory)
         print('Repo erased')
         return
     else:
