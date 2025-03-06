@@ -9,55 +9,6 @@ import sys
 import time
 
 
-def home(CONFIG):
-    version = CONFIG['VERSION']
-    workingDirectory = os.getcwd()
-    lvcDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'])
-
-    # Checks if versionner directory exists
-    isInit = os.path.isdir(lvcDirectory)
-    if isInit:
-        message = 'Activé dans le dossier courant'
-    else:
-        message = "Pas activé dans le dossier courant"
-
-    print(f'[LVC version {version}] {message}')
-    print("Type 'lvc help' or 'lvc h' for help ")
-
-def unknownCommand():
-    print('Unknown command')
-
-def help(CONFIG, arguments):
-    version = CONFIG['VERSION']
-    print(f'[LVC version {version}] ')
-    print("""
-          lvc    [init|version <comment>|list|switch <ID>|destroy|help]
-          
-        * init              : initialize lvc in the current directory. Add -n to avoid adding a .lvcignore file
-        * version <comment> : creates a new snapshot of the working directory, with a optional comment
-        * list              : lists all versions in working directory
-        * switch  <ID>      : switches to version with version ID given with list
-        * destroy           : deactivates lvc in current directory
-        * help              : displays this help   """)
-
-
-
-
-def destroy(CONFIG, arguments):
-    workingDirectory = os.getcwd()
-    lvcDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'])
-    isInit = os.path.isdir(lvcDirectory)
-    if isInit:
-        shutil.rmtree(lvcDirectory)
-        print('Repo erased')
-        return
-    else:
-        print('No repo in current directory')
-        return
-    
-
-    
-
 def readIgnore(ignoreFilePath):
     with open(ignoreFilePath, 'r') as ignore_file:
         ignorePatterns = [line.strip() for line in ignore_file if line.strip()]
@@ -155,95 +106,6 @@ def readVersions(filePath):
 
 
 
-
-
-def list(CONFIG, arguments):
-    HASH_ALGO = CONFIG['HASH_ALGO']
-    workingDirectory = os.getcwd()
-    lvcDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'])
-    dataFilePath = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['DATA_FILE'])
-    versionsDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['VERSIONS_DIR'])
-    objectsDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['OBJECTS_DIR'])
-    ignoreFilePath = os.path.join(workingDirectory, CONFIG['IGNORE_FILE'])
-
-    # Checks if versionner directory exists
-    isInit = os.path.isdir(lvcDirectory)
-    if not isInit:
-        print('No repo in current folder')
-        return
-    
-    # Reads version file
-    data = readVersions(dataFilePath)
-
-    # Formats data for display
-    formattedData = []
-    IdBuffer = []
-    for version in data:
-        idLength = 8
-        versionId = version[0][:idLength]
-        while versionId in IdBuffer:
-            idLength += 1
-            versionId = version[0][:idLength]
-        versionId = versionId + ' ' * (10 - len(versionId))    # Prendre en compte le changement de tailler pour l'espacement des string
-        IdBuffer.append(versionId)
-        comment = version[1]
-        created = datetime.fromtimestamp(int(version[2]))
-        createdFormatted = created.strftime('%Y-%m-%d %H:%M:%S')
-
-        formattedData.append([versionId, comment, createdFormatted])
-
-    # Prints formatted versions
-    print('VERSION ID  CREATED              COMMENT')
-    for version in formattedData:
-        print(f'{version[0]}  {version[2]} {version[1]}')
-
-
-
-
-def init(CONFIG, arguments):
-    HASH_ALGO = CONFIG['HASH_ALGO']
-    workingDirectory = os.getcwd()
-    lvcDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'])
-    dataFilePath = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['DATA_FILE'])
-    versionsDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['VERSIONS_DIR'])
-    objectsDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['OBJECTS_DIR'])
-    ignoreFilePath = os.path.join(workingDirectory, CONFIG['IGNORE_FILE'])
-
-    # Get no ignore flag
-    if len(arguments) >= 1 and arguments[0] == '-n':    
-        noIgnore = True
-    else:
-        noIgnore = False
-
-    # Checks if versionner directory exists
-    isInit = os.path.isdir(lvcDirectory)
-    if isInit:
-        print('Repo already created in current folder')
-        return
-    
-    # Creates LV_DIR
-    os.mkdir(lvcDirectory)
-
-    # Creates the data file
-    with open(dataFilePath,'w') as file:
-        file.writelines('')
-
-    # Creates the versions directory
-    os.mkdir(versionsDirectory)
-
-    # Creates the objects directory
-    os.mkdir(objectsDirectory)
-
-    # Creates a .ignore file
-    if not noIgnore:
-        with open(ignoreFilePath,'w') as file:
-            file.writelines('.lvc/ \n')
-
-    print('Repo created in current directory')
-
-
-
-
 def switch(CONFIG, arguments):
     HASH_ALGO = CONFIG['HASH_ALGO']
     workingDirectory = os.getcwd()
@@ -260,7 +122,7 @@ def switch(CONFIG, arguments):
         print('Need version ID to switch')
         return
     
-    # Checks if versionner directory existsME
+    # Checks if versionner directory exists
     isInit = os.path.isdir(lvcDirectory)
     if not isInit:
         print('No repo in current folder')
@@ -314,6 +176,144 @@ def switch(CONFIG, arguments):
     
     
 
+
+
+def destroy(CONFIG, arguments):
+    workingDirectory = os.getcwd()
+    lvcDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'])
+    isInit = os.path.isdir(lvcDirectory)
+    if isInit:
+        shutil.rmtree(lvcDirectory)
+        print('Repo erased')
+        return
+    else:
+        print('No repo in current directory')
+        return
+    
+
+    
+
+
+
+def init(CONFIG, arguments):
+    HASH_ALGO = CONFIG['HASH_ALGO']
+    workingDirectory = os.getcwd()
+    lvcDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'])
+    dataFilePath = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['DATA_FILE'])
+    versionsDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['VERSIONS_DIR'])
+    objectsDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['OBJECTS_DIR'])
+    ignoreFilePath = os.path.join(workingDirectory, CONFIG['IGNORE_FILE'])
+
+    # Get no ignore flag
+    if len(arguments) >= 1 and arguments[0] == '-n':    
+        noIgnore = True
+    else:
+        noIgnore = False
+
+    # Checks if versionner directory exists
+    isInit = os.path.isdir(lvcDirectory)
+    if isInit:
+        print('Repo already created in current folder')
+        return
+    
+    # Creates LV_DIR
+    os.mkdir(lvcDirectory)
+
+    # Creates the data file
+    with open(dataFilePath,'w') as file:
+        file.writelines('')
+
+    # Creates the versions directory
+    os.mkdir(versionsDirectory)
+
+    # Creates the objects directory
+    os.mkdir(objectsDirectory)
+
+    # Creates a .ignore file
+    if not noIgnore:
+        with open(ignoreFilePath,'w') as file:
+            file.writelines('.lvc/ \n')
+
+    print('Repo created in current directory')
+
+
+
+
+def home(CONFIG):
+    version = CONFIG['VERSION']
+    workingDirectory = os.getcwd()
+    lvcDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'])
+
+    # Checks if versionner directory exists
+    isInit = os.path.isdir(lvcDirectory)
+    if isInit:
+        message = 'Activé dans le dossier courant'
+    else:
+        message = "Pas activé dans le dossier courant"
+
+    print(f'[LVC version {version}] {message}')
+    print("Type 'lvc help' or 'lvc h' for help ")
+
+def unknownCommand():
+    print('Unknown command')
+
+def help(CONFIG, arguments):
+    version = CONFIG['VERSION']
+    print(f'[LVC version {version}] ')
+    print("""
+          lvc    [init|version <comment>|list|switch <ID>|destroy|help]
+          
+        * init              : initialize lvc in the current directory. Add -n to avoid adding a .lvcignore file
+        * version <comment> : creates a new snapshot of the working directory, with a optional comment
+        * list              : lists all versions in working directory
+        * switch  <ID>      : switches to version with version ID given with list
+        * destroy           : deactivates lvc in current directory
+        * help              : displays this help   """)
+
+
+
+
+
+
+def list(CONFIG, arguments):
+    HASH_ALGO = CONFIG['HASH_ALGO']
+    workingDirectory = os.getcwd()
+    lvcDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'])
+    dataFilePath = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['DATA_FILE'])
+    versionsDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['VERSIONS_DIR'])
+    objectsDirectory = os.path.join(workingDirectory, CONFIG['LVC_DIR'], CONFIG['OBJECTS_DIR'])
+    ignoreFilePath = os.path.join(workingDirectory, CONFIG['IGNORE_FILE'])
+
+    # Checks if versionner directory exists
+    isInit = os.path.isdir(lvcDirectory)
+    if not isInit:
+        print('No repo in current folder')
+        return
+    
+    # Reads version file
+    data = readVersions(dataFilePath)
+
+    # Formats data for display
+    formattedData = []
+    IdBuffer = []
+    for version in data:
+        idLength = 8
+        versionId = version[0][:idLength]
+        while versionId in IdBuffer:
+            idLength += 1
+            versionId = version[0][:idLength]
+        versionId = versionId + ' ' * (10 - len(versionId))    # Prendre en compte le changement de tailler pour l'espacement des string
+        IdBuffer.append(versionId)
+        comment = version[1]
+        created = datetime.fromtimestamp(int(version[2]))
+        createdFormatted = created.strftime('%Y-%m-%d %H:%M:%S')
+
+        formattedData.append([versionId, comment, createdFormatted])
+
+    # Prints formatted versions
+    print('VERSION ID  CREATED              COMMENT')
+    for version in formattedData:
+        print(f'{version[0]}  {version[2]} {version[1]}')
 
 
 
