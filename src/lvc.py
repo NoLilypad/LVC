@@ -32,7 +32,8 @@ def loadCommands():
         version.version: ['version','v'],
         destroy.destroy: ['destroy', 'd'],
         list.list: ['list', 'l'],
-        switch.switch: ['switch','s']
+        switch.switch: ['switch','s'],
+        misc.help: ['help', 'h']
     }
 
     # Créer un dictionnaire pour mapper chaque commande/alias à sa fonction
