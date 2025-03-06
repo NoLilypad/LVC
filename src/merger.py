@@ -2,12 +2,8 @@ import os
 import re
 import sys
 
-def main():
-    if len(sys.argv) != 2:
-        print("Usage: python merge_script.py <fichier_principal.py>")
-        sys.exit(1)
+def merge(main_file):
     
-    main_file = sys.argv[1]
     local_files = [f for f in os.listdir('.') if f.endswith('.py') and os.path.isfile(f)]
     
     if main_file not in local_files:
@@ -108,10 +104,33 @@ def main():
                 merged_code.append(line)
 
     # Écriture finale
-    with open('final.py', 'w') as f:
+    try:
+        os.mkdir('tmp')
+    except:
+        pass
+    with open('tmp/final.py', 'w') as f:
         f.write('\n'.join(sorted(external_imports))) 
         f.write('\n\n')
         f.writelines(merged_code)
 
+
+
+
+
+
+
 if __name__ == '__main__':
-    main()
+
+    if len(sys.argv) != 2:
+            print("Usage: python merge_script.py <fichier_principal.py>")
+            sys.exit(1)
+        
+    main_file = sys.argv[1]
+
+    merge(main_file)
+
+    os.system("cython --embed -o tmp/final.c tmp/final.py")
+
+    os.system("gcc -I/usr/include/python3.12 -o tmp/final tmp/final.c -lpython3.12")
+
+

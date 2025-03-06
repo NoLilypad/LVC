@@ -10,7 +10,7 @@ python merger.py "$1"
 
 
 # Récupère le script Python
-script_python="final.py"
+script_python="tmp/final.py"
 
 # Vérifie si le fichier existe
 if [ ! -f "$script_python" ]; then
