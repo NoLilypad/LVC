@@ -27,23 +27,24 @@ sudo cp dist/ver /usr/local/bin
 ## Commands
 
 | Command           | Alias    | Use | arguments|
-| :---------------- | :------: | :---- | :---|
+| :---------------- | :------: | :---- | :---:|
 | `init     `       |   `i`    | initialize version manager un directory | -
 | `version`         |   `v`    | create a new version | comment of version
 | `list`            |  `l`     | lists versions | -
 | `switch`          |  `s`     | switches to specifi version | version ID
-| `destroy`         | `d`      | deletes the config of local version manager| - 
+| `destroy`         | `d`      | deletes the config of local version manager| -
+
 
 
 ## Comments
 
-Currently (1.0) no caching, no branches, no merging, no remote access or .ignore file.
+Added caching with v2.0.
 
 
 ## Releases
 
-- **v1.0** : No caching
 - **v2.0** : Added caching feature
+- **v1.0** : No caching
 
 
 ## Structure 
@@ -71,7 +72,7 @@ Made with [https://www.text-tree-generator.com/](https://www.text-tree-generator
 
 ### Priority
 
-- [ ] Add caching
+- [X] Add caching
 - [ ] Add linking between versions
 - [X] Add ignore method
 
