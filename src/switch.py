@@ -55,12 +55,18 @@ def switch(CONFIG, arguments):
 
     # Récupère les fichiers actuels
     currentTree = utils.getElements(workingDirectory, ignorePatterns)
+    
+    # Efface les dossiers courants
+    for element in currentTree:
+        fullPath = os.path.join(workingDirectory, element)
+        os.remove(fullPath)
 
+    for element in versionTree:
+        elementFullPath = os.path.join(workingDirectory, element[1])
+        elementHash = element[0]
+        utils.createFile(elementFullPath, elementHash, objectsDirectory)
 
-    print(currentTree)
-
-    for object in versionTree:
-        print(object)
+    print('Done')
     
     
     

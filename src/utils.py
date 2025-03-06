@@ -52,6 +52,12 @@ def createObject(elementPath, elementHash, objectsDirectory):
     with open(os.path.join(objectsDirectory, elementHash), 'wb') as file:
         file.writelines(data)
 
+def createFile(elementPath, elementHash, objectsDirectory):
+    with open(os.path.join(objectsDirectory, elementHash), 'rb') as file:
+                data = file.readlines()
+    with open(elementPath, 'wb') as file:
+        file.writelines(data)
+
 def createObjects(objectsDirectory, elementsInfo):
     for element in elementsInfo:
         elementPath, elementHash = element
