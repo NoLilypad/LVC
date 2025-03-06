@@ -21,7 +21,7 @@ def list(CONFIG, arguments):
         return
     
     # Reads version file
-    data = utils.readVersion(dataFilePath)
+    data = utils.readVersions(dataFilePath)
 
     # Formats data for display
     formattedData = []

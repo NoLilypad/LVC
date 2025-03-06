@@ -65,6 +65,14 @@ def createVersionFile(versionPath, elementsInfo):
         for element in elementsInfo:
             elementPath, elementHash = element
             writer.writerow([elementHash, elementPath])
+
+def readVersionFile(versionPath):
+    data = []
+    with open (versionPath,'r',newline='') as file:
+        reader = csv.reader(file)
+        for line in reader:
+            data.append(line)
+    return(data)
              
 
 def writeVersion(filePath, data):
@@ -74,7 +82,7 @@ def writeVersion(filePath, data):
 
 
 
-def readVersion(filePath):
+def readVersions(filePath):
     data = []
     with open(filePath, 'r', newline='') as file:
         reader = csv.reader(file)

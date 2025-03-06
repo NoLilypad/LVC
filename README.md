@@ -1,6 +1,6 @@
 # LVC : a Lightweight Version Control
 
-A simple local code version control manager made with python. 
+A simple local code version control manager made with Python. 
 
 ## Installation
 
@@ -8,12 +8,12 @@ A simple local code version control manager made with python.
 Clone the repository 
 
 ```sh
-git clone git@github.com:NoLilypad/versionner.git
+git clone git@github.com:NoLilypad/LVC.git
 cd versionner
 ```
 
 You can then either : 
-- Execute the versionner using python : 
+- Execute LVC using python : 
 ```sh
 python /the/path/to/versionner/lvc.py your_command
 ```
@@ -52,15 +52,15 @@ Currently (1.0) no caching, no branches, no merging, no remote access or .ignore
 workingDirectory/  
 ├── .lvc/  
 │   ├── data   
-│   ├── versions/  
+│   ├── versions/    
 │   │   ├── versionHash1  
 │   │   ├── versionHash2  
 │   │   └── versionHash3  
-│   └── objects  
+│   └── objects/  
 │       ├── objectHash1  
 │       └── objectHash2  
 ├── SomeFileToTrack  
-└── SomeFolder  
+└── SomeFolder/  
     └── AnotherFile  
 ```
 
@@ -73,7 +73,12 @@ Made with [https://www.text-tree-generator.com/](https://www.text-tree-generator
 
 - [ ] Add caching
 - [ ] Add linking between versions
-- [ ] Add ignore method
+- [X] Add ignore method
+
+### Misc
+
+- [ ] Refactorise read/write functions of utils
+- [ ] Rewrite ignore patterns management in utils.getElements
 
 ### Long-term
 - [ ] Add remote access
