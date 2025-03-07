@@ -26,6 +26,11 @@ LVC is fully written in Python, but offers two solutions to compile it using the
 
 ### 1. Build the file [through C](https://cython.org/) :
 
+You might have to install Python dev
+```sh
+sudo apt update
+sudo apt install python3-dev
+```
 
 ```sh
 cd tools
