@@ -54,7 +54,8 @@ python src/lvc.py
 
 ### 2. Using the executable
 ```sh
-build/lvc
+build/cython/lvc  # or
+build/pyinstaller/lvc
 ```
 Place the built executable in `/usr/local/bin` to easily call it in any directory
 
