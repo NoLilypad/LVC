@@ -71,7 +71,7 @@ For now, there are no merge functionality.
 
 | Command           | Alias    | Use                                        | arguments|
 | :---------------- | :------: | :----                                      | :---:|
-| `init     `       |   `i`    | initialize version manager un directory    | (optionnal) -n to avoid .lvcignore automatic creation
+| `init`       |   `i`    | initialize version manager un directory    | (optionnal) -n to avoid .lvcignore automatic creation
 | `version`         |   `v`    | create a new version                       | comment of version
 | `list`            |  `l`     | lists versions                             | -
 | `switch`          |  `s`     | switches to specifi version                | version ID
