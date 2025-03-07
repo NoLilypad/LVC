@@ -83,21 +83,13 @@ For now, there are no merge functionality.
 | `destroy`         | `d`      | deletes the config of local version manager|- 
 | `help`            | `h`      | print help                                 | -
 
-
-
-## Comments
-
-- Building through C results to much lighter executable, but require a few more steps than using pyinstaller
-- For now, there are no link between versions, meaning no merge or branch functionality
-
-
 ## Releases
 
 - **v2.0** : Added caching feature
 - **v1.0** : No caching
 
 
-## Structure 
+## .lvc structure 
 
 ```bash
 workingDirectory/  
@@ -117,6 +109,18 @@ workingDirectory/
 
 
 Made with [https://www.text-tree-generator.com/](https://www.text-tree-generator.com/)
+
+## Comments
+
+- Building through C results to much lighter executable, but require a few more steps than using pyinstaller
+- For now, there are no link between versions, meaning no merge or branch functionality
+
+Performance difference between Pyinstaller and Cython builds using [hyperfine](https://github.com/sharkdp/hyperfine) : 
+
+![alt_text](images/benchmark.png)
+
+
+
 
 ## TODO
 
