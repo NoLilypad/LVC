@@ -116,7 +116,7 @@ def merge(source_dir, main_file):
         os.mkdir('tmp')
     except:
         pass
-    with open('../build/final.py', 'w') as f:
+    with open('../build/lvc.py', 'w') as f:
         f.write('\n'.join(sorted(external_imports))) 
         f.write('\n\n')
         f.writelines(merged_code)
