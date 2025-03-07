@@ -13,27 +13,39 @@ cd LVC
 
 ## Building
 
-LVC is fully written in Python, but offers two solutions to compile it.
+### Install Python requirements
 
 
-### 1. Build the file with [pyinstaller](https://pyinstaller.org/en/stable/)
+You may need to use a virtual environment
 ```sh
-cd src/
-pyinstaller --onefile --name=lvc lvc.py
+pip install -r requirements.txt
 ```
 
-### 2. Build the file [through C](https://cython.org/) using the automated compiler script :
+LVC is fully written in Python, but offers two solutions to compile it using the `tools/makefile`. 
 
-More details in comments
+
+### 1. Build the file [through C](https://cython.org/) :
+
 
 ```sh
-cd src/
-./compiler
+cd tools
+make cython_build 
 ```
+The executable will then be in `build/cython`
+
+
+### 2. Build the file with [pyinstaller](https://pyinstaller.org/en/stable/)
+```sh
+cd tools
+make pyinstaller_build 
+```
+
+The executable will then be in `build/pyinstaller`
+
 
 ## Run
 
-You can either run LVC as a Python script, or use the executable us built above.
+You can either run LVC as a Python script, or use the executable built above.
 
 ### 1. Using Python
 ```sh
@@ -42,7 +54,7 @@ python src/lvc.py
 
 ### 2. Using the executable
 ```sh
-src/lvc
+build/lvc
 ```
 Place the built executable in `/usr/local/bin` to easily call it in any directory
 
@@ -56,14 +68,14 @@ For now, there are no merge functionality.
 
 ## Commands
 
-| Command           | Alias    | Use | arguments|
-| :---------------- | :------: | :---- | :---:|
-| `init     `       |   `i`    | initialize version manager un directory | (optionnal) -n to avoid .lvcignore automatic creation
-| `version`         |   `v`    | create a new version | comment of version
-| `list`            |  `l`     | lists versions | -
-| `switch`          |  `s`     | switches to specifi version | version ID
+| Command           | Alias    | Use                                        | arguments|
+| :---------------- | :------: | :----                                      | :---:|
+| `init     `       |   `i`    | initialize version manager un directory    | (optionnal) -n to avoid .lvcignore automatic creation
+| `version`         |   `v`    | create a new version                       | comment of version
+| `list`            |  `l`     | lists versions                             | -
+| `switch`          |  `s`     | switches to specifi version                | version ID
 | `destroy`         | `d`      | deletes the config of local version manager|- 
-| `help`         | `h`      | print help| -
+| `help`            | `h`      | print help                                 | -
 
 
 
@@ -112,7 +124,7 @@ Made with [https://www.text-tree-generator.com/](https://www.text-tree-generator
 
 - [ ] Refactorise read/write functions of utils
 - [ ] Rewrite ignore patterns management in utils.getElements
-- [X] Automated C compilation
+- [X] Automate C compilation
 
 ### Long-term
 - [ ] Add remote access
