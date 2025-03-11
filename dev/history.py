@@ -3,6 +3,7 @@ import os
 class History:
     def __init__(self, directory, lvcDirectoryName):
         self.directory = directory
+        self.lvcDirectoryName = lvcDirectoryName
         self.versions = []
 
     def __str__(self):

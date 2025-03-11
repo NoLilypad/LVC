@@ -6,13 +6,13 @@ from init import Init
 from help import Help
 
 CONFIG = {
-    'LVC_DIR': '.lvc',
-    'DATA_FILE': 'data',
+    #'LVC_DIR': '.lvc',
+    #'DATA_FILE': 'data',
     'VERSION': '2.0',
-    'IGNORE_FILE': '.lvcignore',
+    #'IGNORE_FILE': '.lvcignore',
     'HASH_ALGO': 'sha256',
-    'VERSIONS_DIR': 'versions',
-    'OBJECTS_DIR' : 'objects'
+    #'VERSIONS_DIR': 'versions',
+    #'OBJECTS_DIR' : 'objects'
 }
 
 
