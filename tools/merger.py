@@ -1,144 +1,170 @@
+#!/usr/bin/env python3
 import os
-import re
 import sys
+import re
 
-def merge(source_dir, main_file):
+def is_import_line(line):
+    """Retourne True si la ligne est une instruction d'import."""
+    stripped = line.strip()
+    return stripped.startswith("import ") or stripped.startswith("from ")
 
+def extract_module_from_import(line):
+    """Extrait le nom du module d'une ligne d'import."""
+    stripped = line.strip()
+    if stripped.startswith("import "):
+        # Exemple : "import module", "import module as alias" ou "import module1, module2"
+        modules_part = stripped[len("import "):]
+        first_module = modules_part.split(",")[0].strip()
+        return first_module.split()[0]
+    elif stripped.startswith("from "):
+        # Exemple : "from module import quelque_chose"
+        parts = stripped.split()
+        if len(parts) >= 2:
+            return parts[1]
+    return None
+
+def extract_definitions(lines):
+    """Extrait l'ensemble des définitions (classes et fonctions) d'un fichier."""
+    defs = set()
+    pattern = re.compile(r'^\s*(def|class)\s+(\w+)\s*[\(:]')
+    for line in lines:
+        m = pattern.match(line)
+        if m:
+            defs.add(m.group(2))
+    return defs
+
+def replace_internal_references(line, internal_defs):
+    """
+    Remplace dans une ligne toutes les occurences de module.nom par nom,
+    pour chaque module interne dont on connaît les définitions.
+    """
+    for module, names in internal_defs.items():
+        for name in names:
+            # Recherche "module.name" avec des limites de mots
+            pattern = re.compile(r'\b' + re.escape(module) + r'\.' + re.escape(name) + r'\b')
+            line = pattern.sub(name, line)
+    return line
+
+def extract_main_blocks(lines, modules_internes, external_imports, internal_defs):
+    """
+    Parcourt les lignes d'un fichier pour extraire le contenu en supprimant
+    les imports internes et en remplaçant les références internes.
+    Si un bloc d'exécution (if __name__ == "__main__":) est détecté, il est extrait.
     
-    
-    # Récupération des fichiers .py dans le dossier cible
-    local_files = [
-        f for f in os.listdir(target_dir) 
-        if f.endswith('.py') and 
-        os.path.isfile(os.path.join(target_dir, f))
-    ]
-    
-    if main_file not in local_files:
-        print(f"Erreur: {main_file} non trouvé")
-        sys.exit(1)
-
-    # Nouveau : Dictionnaire des fonctions par module
-    full_path_files = {f: os.path.join(target_dir, f) for f in local_files}
-    local_modules = {os.path.splitext(f)[0]: f for f in local_files}
-    local_functions = {}
-    
-    for module_name, file in local_modules.items():
-        with open(full_path_files[file], 'r') as f:
-            content = f.read()
-        # Détection des fonctions avec regex
-        functions = re.findall(r'^def\s+(\w+)', content, flags=re.MULTILINE)
-        local_functions[module_name] = functions
-
-    # Analyse des dépendances (inchangé)
-    dependencies = {f: set() for f in local_files}
-    pattern_import = re.compile(r'^import\s+([\w ,]+)')
-    pattern_from = re.compile(r'^from\s+([\w]+)\s+import')
-
-    for file in local_files:
-        with open(full_path_files[file], 'r') as f:
-            content = f.readlines()
-        
-        for line in content:
-            line_clean = line.strip().split('#')[0]
-            
-            if line_clean.startswith('import '):
-                match = pattern_import.match(line_clean)
-                if match:
-                    modules = [m.strip() for m in match.group(1).split(',')]
-                    for mod in modules:
-                        if mod in local_modules:
-                            dependencies[file].add(local_modules[mod])
-            
-            elif line_clean.startswith('from '):
-                match = pattern_from.match(line_clean)
-                if match:
-                    mod = match.group(1)
-                    if mod in local_modules:
-                        dependencies[file].add(local_modules[mod])
-
-    # Tri topologique (inchangé)
-    visited = set()
-    order = []
-    
-    def visit(file):
-        if file not in visited:
-            visited.add(file)
-            for dep in dependencies[file]:
-                visit(dep)
-            order.append(file)
-    
-    visit(main_file)
-
-    # Traitement des lignes avec remplacement
-    external_imports = set()
-    merged_code = []
-    
-    for file in order:
-        with open(full_path_files[file], 'r') as f:
-            content = f.readlines()
-        
-        for line in content:
-            code_part = line.split('#')[0].rstrip()
-            comment_part = line[line.find('#'):] if '#' in line else ''
-            
-            # Nouveau : Remplacement module.fonction -> fonction
-            modified = False
-            for module in local_functions:
-                for func in local_functions[module]:
-                    pattern = re.compile(rf'\b{module}\.{func}\b')
-                    new_code, count = pattern.subn(func, code_part)
-                    if count > 0:
-                        code_part = new_code
-                        modified = True
-            
-            if modified:
-                line = code_part + ('  ' + comment_part if comment_part else '') + '\n'
-
-            # Gestion des imports (inchangé)
-            if code_part.startswith(('import ', 'from ')):
-                modules = []
-                if code_part.startswith('import '):
-                    parts = code_part[6:].split(',')
-                    modules = [p.strip().split()[0] for p in parts]
-                elif code_part.startswith('from '):
-                    match = pattern_from.match(code_part)
-                    if match:
-                        modules = [match.group(1)]
-                
-                is_external = all(mod not in local_modules for mod in modules)
-                if is_external:
+    Retourne un tuple (new_lines, main_blocks) où new_lines contient le contenu
+    sans les blocs d'exécution et main_blocks est une liste des blocs extraits.
+    """
+    new_lines = []
+    main_blocks = []
+    # Regex pour détecter le point d'entrée
+    pattern_main = re.compile(r'^(\s*)if\s+__name__\s*==\s*[\'"]__main__[\'"]\s*:')
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        m = pattern_main.match(line)
+        if m:
+            # On détecte le bloc d'exécution
+            main_indent = len(m.group(1))
+            block_lines = [line]
+            i += 1
+            # On récupère les lignes indentées faisant partie du bloc
+            while i < len(lines):
+                next_line = lines[i]
+                # On inclut les lignes vides
+                if next_line.strip() == "":
+                    block_lines.append(next_line)
+                    i += 1
+                    continue
+                indent = len(next_line) - len(next_line.lstrip())
+                if indent > main_indent:
+                    block_lines.append(next_line)
+                    i += 1
+                else:
+                    break
+            main_blocks.append("".join(block_lines))
+        else:
+            if is_import_line(line):
+                mod = extract_module_from_import(line)
+                if mod in modules_internes:
+                    i += 1
+                    continue
+                else:
                     external_imports.add(line.strip())
-            else:
-                merged_code.append(line)
+                    i += 1
+                    continue
+            # Remplacement des références internes dans la ligne
+            new_line = replace_internal_references(line, internal_defs)
+            new_lines.append(new_line)
+            i += 1
+    return new_lines, main_blocks
 
-    # Écriture finale
-    with open('../build/lvc.py', 'w') as f:
-        f.write('\n'.join(sorted(external_imports))) 
-        f.write('\n\n')
-        f.writelines(merged_code)
-
-
-
-
-
-
+def main():
+    if len(sys.argv) != 3:
+        print("Usage: python merge_scripts.py <dossier> <fichier_sortie.py>")
+        sys.exit(1)
+    
+    dossier = sys.argv[1]
+    fichier_sortie = sys.argv[2]
+    
+    if not os.path.isdir(dossier):
+        print(f"Erreur : {dossier} n'est pas un dossier valide.")
+        sys.exit(1)
+    
+    # Récupération de tous les fichiers .py du dossier
+    fichiers_py = [f for f in os.listdir(dossier) if f.endswith(".py")]
+    if not fichiers_py:
+        print("Aucun fichier .py trouvé dans le dossier.")
+        sys.exit(1)
+    
+    # Ensemble des modules internes (noms de fichiers sans extension)
+    modules_internes = {os.path.splitext(f)[0] for f in fichiers_py}
+    
+    # Dictionnaire associant chaque module à ses définitions (fonctions/classes)
+    internal_defs = {}
+    # Contenu brut de chaque fichier
+    file_contents = {}
+    # Ensemble des imports externes
+    external_imports = set()
+    # Contenu traité de chaque fichier
+    merged_contents = {}
+    # Liste globale des blocs d'exécution extraits
+    all_main_blocks = []
+    
+    # Lecture des fichiers et extraction des définitions
+    for fichier in sorted(fichiers_py):
+        chemin = os.path.join(dossier, fichier)
+        with open(chemin, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+        file_contents[fichier] = lines
+        module_name = os.path.splitext(fichier)[0]
+        if module_name in modules_internes:
+            internal_defs[module_name] = extract_definitions(lines)
+    
+    # Traitement de chaque fichier : extraction des blocs main et remplacement des références
+    for fichier, lines in file_contents.items():
+        new_lines, main_blocks = extract_main_blocks(lines, modules_internes, external_imports, internal_defs)
+        merged_contents[fichier] = new_lines
+        all_main_blocks.extend(main_blocks)
+    
+    # Écriture du fichier fusionné
+    with open(fichier_sortie, 'w', encoding='utf-8') as out:
+        # D'abord, écrire les imports externes dédupliqués
+        for imp in sorted(external_imports):
+            out.write(imp + "\n")
+        out.write("\n")
+        
+        # Ensuite, concaténer le contenu de chaque fichier
+        for fichier, lines in merged_contents.items():
+            out.write(f"# Début du fichier {fichier}\n")
+            out.write("".join(lines))
+            out.write(f"\n# Fin du fichier {fichier}\n\n")
+        
+        # Enfin, placer les blocs d'exécution à la fin du fichier fusionné
+        if all_main_blocks:
+            out.write("# Point d'entrée d'exécution\n")
+            for block in all_main_blocks:
+                out.write(block)
+                out.write("\n")
 
 if __name__ == '__main__':
-
-    if len(sys.argv) != 3:
-            print("Usage: python merger.py <source_dir> <fichier_principal.py>")
-            sys.exit(1)
-        
-    target_dir = sys.argv[1]
-    main_file = sys.argv[2]
-
-
-    merge(target_dir, main_file)
-
-
-
-
-    # os.system("cython --embed -o tmp/final.c tmp/final.py")
-    # os.system("gcc -I/usr/include/python3.12 -o tmp/final tmp/final.c -lpython3.12")
-
-
+    main()
