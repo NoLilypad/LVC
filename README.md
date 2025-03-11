@@ -31,6 +31,7 @@ You might have to install Python dev
 sudo apt update
 sudo apt install python3-dev
 ```
+Then build the file
 
 ```sh
 cd tools
@@ -59,7 +60,7 @@ python src/lvc.py
 
 ### 2. Using the executable
 ```sh
-build/cython/lvc  # or
+build/cython/lvc        # or
 build/pyinstaller/lvc
 ```
 Place the built executable in `/usr/local/bin` to easily call it in any directory
@@ -76,7 +77,7 @@ For now, there are no merge functionality.
 
 | Command           | Alias    | Use                                        | arguments|
 | :---------------- | :------: | :----                                      | :---:|
-| `init`       |   `i`    | initialize version manager un directory    | (optionnal) -n to avoid .lvcignore automatic creation
+| `init`       |   `i`    | initialize version manager in directory    | (optionnal) -n to avoid .lvcignore automatic creation
 | `version`         |   `v`    | create a new version                       | comment of version
 | `list`            |  `l`     | lists versions                             | -
 | `switch`          |  `s`     | switches to specifi version                | version ID
@@ -85,8 +86,9 @@ For now, there are no merge functionality.
 
 ## Releases
 
+- **v2.1** : Better build functionality
 - **v2.0** : Added caching feature
-- **v1.0** : No caching
+- **v1.0** : No caching, plain 
 
 
 ## .lvc structure 
