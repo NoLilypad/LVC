@@ -117,7 +117,7 @@ Made with [https://www.text-tree-generator.com/](https://www.text-tree-generator
 
 Performance difference between Pyinstaller and Cython builds using [hyperfine](https://github.com/sharkdp/hyperfine) : 
 
-![alt_text](images/benchmark.png)
+![alt_text](misc/benchmark.png)
 
 
 
