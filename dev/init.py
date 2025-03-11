@@ -18,6 +18,6 @@ class Init(Command):
         # Creates history using working directory
         history = History(self.workingDirectory)
 
-
+        history.initDump()
 
         print(history)

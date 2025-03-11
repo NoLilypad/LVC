@@ -1,6 +1,6 @@
 import sys
 
-import misc
+from misc import Misc
 
 from init import Init
 from help import Help
@@ -39,18 +39,20 @@ def main():
     args = sys.argv
 
     if len(args) == 1:
-        misc.home()
+        commandObject = Misc(CONFIG)
+        commandObject.home()
         return
 
     commandName = args[1]
     arguments = args[2:]
 
     if commandName not in commandMap:
-        misc.unknownCommand()
+        commandObject = Misc(CONFIG)
+        commandObject.unknownCommand()
         return
     else:
-        commandOjbect = commandMap[commandName](CONFIG)
-        commandOjbect.command(arguments)
+        commandObject = commandMap[commandName](CONFIG)
+        commandObject.command(arguments)
         return
     
 

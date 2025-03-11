@@ -2,11 +2,11 @@ import os
 
 from command import Command
 
-class misc(Command):
+class Misc(Command):
 
     def home(self):
         # Checks if versionner directory exists
-        isInit = os.path.isdir(self.lvcDirectory)
+        isInit = os.path.isdir(self.lvcDirectoryPath)
         if isInit:
             message = 'Activé dans le dossier courant'
         else:
