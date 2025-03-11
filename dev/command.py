@@ -1,4 +1,5 @@
 import os
+from history import History
 
 class Command:
     def __init__(self, CONFIG):
@@ -6,8 +7,3 @@ class Command:
         self.version = CONFIG['VERSION']    
         self.workingDirectory = os.getcwd()
 
-    def isInit(self):
-        # Checks if versionner directory exists in current directory
-        return os.path.isdir(self.lvcDirectoryPath)
-
-        
