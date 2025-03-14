@@ -10,10 +10,7 @@ class Init(Command):
         else:
             noIgnore = False
 
-        # Checks if history is init in working directory
-        if self.isInit():
-            print('Repo already created in current directory')
-            return
+        
 
         # Creates history using working directory
         history = History(self.workingDirectory)

@@ -1,6 +1,9 @@
 import sys
 
-import misc 
+from misc import Misc
+
+from init import Init
+from help import Help
 
 CONFIG = {
     'VERSION': '3.0',
@@ -12,6 +15,8 @@ CONFIG = {
 def loadCommands():
     # Dictionnaire des fonctions et leur commandes associées
     functionToCommands = {
+        Init: ['init', 'i'],
+        Help: ['help', 'h']
     }
 
     # Créer un dictionnaire pour mapper chaque commande/alias à sa fonction
@@ -23,19 +28,22 @@ def loadCommands():
 
 
 
+
 def main():
     commandMap = loadCommands()
     args = sys.argv
 
     if len(args) == 1:
-        misc.home(CONFIG)
+        commandObject = Misc(CONFIG)
+        commandObject.home()
         return
 
     commandName = args[1]
     arguments = args[2:]
 
     if commandName not in commandMap:
-        misc.unknownCommand(CONFIG)
+        commandObject = Misc(CONFIG)
+        commandObject.unknownCommand()
         return
     else:
         commandObject = commandMap[commandName](CONFIG)
