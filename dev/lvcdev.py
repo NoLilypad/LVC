@@ -1,6 +1,9 @@
 import sys
 
 import misc 
+import init
+import remove
+
 
 CONFIG = {
     'VERSION': '3.0',
@@ -12,6 +15,8 @@ CONFIG = {
 def loadCommands():
     # Dictionnaire des fonctions et leur commandes associées
     functionToCommands = {
+        init.init: ['init','i'],
+        remove.remove: ['remove','r']
     }
 
     # Créer un dictionnaire pour mapper chaque commande/alias à sa fonction
@@ -31,15 +36,14 @@ def main():
         misc.home(CONFIG)
         return
 
-    commandName = args[1]
+    command = args[1]
     arguments = args[2:]
 
-    if commandName not in commandMap:
+    if command not in commandMap:
         misc.unknownCommand(CONFIG)
         return
     else:
-        commandObject = commandMap[commandName](CONFIG)
-        commandObject.command(arguments)
+        commandMap[command](CONFIG)
         return
     
 

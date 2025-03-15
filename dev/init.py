@@ -3,9 +3,7 @@ import os
 from project import Project
 
 
-def version(CONFIG):
-    HASH_ALGO = CONFIG['HASH_ALGO']
-    
+def init(CONFIG):    
     workingDirectory = os.getcwd()
 
     project = Project(workingDirectory)
