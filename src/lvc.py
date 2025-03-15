@@ -67,4 +67,3 @@ def main(commandMap):
 if __name__ == "__main__":
     commandMap = loadCommands()
     main(commandMap)
-    

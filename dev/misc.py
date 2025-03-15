@@ -9,5 +9,5 @@ def home(CONFIG):
     print("Type 'lvc help' or 'lvc h' for help ")
 
 
-def unkownCommand(CONFIG):
+def unknownCommand(CONFIG):
     print('Unknown command')

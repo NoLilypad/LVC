@@ -3,6 +3,7 @@ import sys
 import misc 
 import init
 import remove
+import version
 
 
 CONFIG = {
@@ -16,7 +17,8 @@ def loadCommands():
     # Dictionnaire des fonctions et leur commandes associées
     functionToCommands = {
         init.init: ['init','i'],
-        remove.remove: ['remove','r']
+        remove.remove: ['remove','r'],
+        version.version: ['version','v']
     }
 
     # Créer un dictionnaire pour mapper chaque commande/alias à sa fonction

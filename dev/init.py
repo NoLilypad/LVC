@@ -1,6 +1,6 @@
 import os 
 
-from project import Project
+from Project import Project
 
 
 def init(CONFIG):    
