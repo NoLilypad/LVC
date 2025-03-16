@@ -6,6 +6,7 @@ import removeProject
 import addVersion
 import listVersions
 import switchVersions
+import help
 
 CONFIG = {
     'VERSION': '3.0',
@@ -21,7 +22,8 @@ def loadCommands():
         removeProject.removeProject: ['remove','r'],
         addVersion.addVersion: ['version','v'],
         listVersions.listVersions: ['list','l'],
-        switchVersions.switchVersions: ['switch','s']
+        switchVersions.switchVersions: ['switch','s'],
+        help.help: ['help','h']
     }
 
     # Créer un dictionnaire pour mapper chaque commande/alias à sa fonction
