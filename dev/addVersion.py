@@ -25,7 +25,7 @@ def addVersion(CONFIG, arguments):
 
     version = Version(head, comment, project)
 
-    version.create(workingDirectory)
+    version.addElementsFromDirectory(workingDirectory)
 
     version.generateHash()
 

@@ -3,17 +3,16 @@ import hashlib
 import time
 import csv
 
-from Project import Project
 from Element import Element
 
 class Version:
-    def __init__(self, ancestors, comment, project):
+    def __init__(self, ancestors, comment, project, hash = '', timestamp = time.time()):
         self.ancestors = ancestors
         self.comment = comment
         self.project = project
         self.elements = []
-        self.hash = ''
-        self.timestamp = time.time()
+        self.hash = hash
+        self.timestamp = timestamp
 
     def generateHash(self):
         hashFunction = hashlib.new(self.project.hashAlgorithm)
@@ -24,8 +23,7 @@ class Version:
         self.hash = hashFunction.hexdigest()
 
 
-    def create(self, directory):
-        self.objects = []
+    def addElementsFromDirectory(self, directory):
         ignorePatterns = self.project.getIgnorePatterns()
 
         for root, dirs, files in os.walk(directory):
