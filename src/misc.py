@@ -5,7 +5,7 @@ def home(CONFIG):
     # else:
     #     message = "Pas activé dans le dossier courant"
 
-    print(f'\nLVC version {CONFIG['VERSION']}')
+    print(f'\nLVC version {CONFIG["VERSION"]}')
     print("Type 'lvc help' or 'lvc h' for help ")
 
 
