@@ -44,7 +44,7 @@ class Project:
 
     def setHead(self, ref):
         with open(self.headFile, 'w') as file:
-            file.writelines(ref)
+            file.writelines(ref + '\n')
 
     def getIgnorePatterns(self):
         if os.path.isfile(self.ignoreFile):

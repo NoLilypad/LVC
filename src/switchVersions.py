@@ -54,6 +54,8 @@ def switchVersions(CONFIG, arguments):
         with open(os.path.join(workingDirectory, element.path), 'wb') as file:
             file.writelines(data)
 
+    project.setHead(version.hash)
+
     
 
 
