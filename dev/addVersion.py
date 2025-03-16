@@ -23,9 +23,11 @@ def addVersion(CONFIG, arguments):
     
     head = project.getHead()
 
-    version = Version(head, comment, project)
+    version = Version([head], comment, project)
 
-    version.addElementsFromDirectory(workingDirectory)
+    ignorePatterns = project.getIgnorePatterns()
+
+    version.addElementsFromDirectory(workingDirectory, ignorePatterns)
 
     version.generateHash()
 

@@ -23,8 +23,7 @@ class Version:
         self.hash = hashFunction.hexdigest()
 
 
-    def addElementsFromDirectory(self, directory):
-        ignorePatterns = self.project.getIgnorePatterns()
+    def addElementsFromDirectory(self, directory, ignorePatterns):
 
         for root, dirs, files in os.walk(directory):
             for file in files:
@@ -33,5 +32,14 @@ class Version:
                 # Gestion de IGNORE_FILE
                 if not any((relPath.endswith(pattern) or (pattern.endswith('/') and pattern in relPath)) for pattern in ignorePatterns):
                     element = Element(relPath, self.project.hashAlgorithm)
+                    element.generateHash()
                     self.elements.append(element)
+
+    def addElementsFromVersionFile(self, versionFile):
+        with open (versionFile,'r',newline='') as file:
+            reader = csv.reader(file)
+            for line in reader:
+                element = Element(line[1], self.project.hashAlgorithm)
+                element.setHash(line[0])
+                self.elements.append(element)
             

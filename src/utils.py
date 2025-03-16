@@ -63,7 +63,7 @@ def createObjects(objectsDirectory, elementsInfo):
         elementPath, elementHash = element
         elementObjectPath = os.path.join(objectsDirectory, elementHash)
         if not os.path.isfile(elementObjectPath):
-            createObject(elementPath, elementHash, objectsDirectory)
+            createObject(elementPath, elementHash, objectsDirectory)    
 
 def createVersionFile(versionPath, elementsInfo):
     with open(versionPath, 'w') as file:

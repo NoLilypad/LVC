@@ -86,6 +86,7 @@ For now, there are no merge functionality.
 
 ## Releases
 
+- **v3.0** : Object oriented conception
 - **v2.1** : Better build functionality
 - **v2.0** : Added caching feature
 - **v1.0** : No caching, plain 
@@ -96,7 +97,7 @@ For now, there are no merge functionality.
 ```bash
 workingDirectory/  
 ├── .lvc/  
-│   ├── data   
+│   ├── project   
 │   ├── versions/    
 │   │   ├── versionHash1  
 │   │   ├── versionHash2  
@@ -134,7 +135,7 @@ Performance difference between Pyinstaller and Cython builds using [hyperfine](h
 
 ### Misc
 
-- [ ] Refactorise read/write functions of utils
+- [X] Refactorise read/write functions of utils
 - [ ] Rewrite ignore patterns management in utils.getElements
 - [X] Automate C compilation
 

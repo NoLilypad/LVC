@@ -29,7 +29,7 @@ class Project:
         with open(self.projectFile,'w') as file:
             file.writelines('')
         with open(self.headFile,'w') as file:
-            file.writelines('INIT_ANCESTOR')
+            file.writelines('FIRST_ANCESTOR')
         with open(self.configFile,'w') as file:
             file.writelines('')
 
