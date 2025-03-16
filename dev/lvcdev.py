@@ -1,10 +1,10 @@
 import sys
 
 import misc 
-import init
-import remove
-import version
-
+import initProject
+import removeProject
+import addVersion
+import listVersions
 
 CONFIG = {
     'VERSION': '3.0',
@@ -16,9 +16,10 @@ CONFIG = {
 def loadCommands():
     # Dictionnaire des fonctions et leur commandes associées
     functionToCommands = {
-        init.init: ['init','i'],
-        remove.remove: ['remove','r'],
-        version.version: ['version','v']
+        initProject.initProject: ['init','i'],
+        removeProject.removeProject: ['remove','r'],
+        addVersion.addVersion: ['version','v'],
+        listVersions.listVersions: ['list','l']
     }
 
     # Créer un dictionnaire pour mapper chaque commande/alias à sa fonction
@@ -45,7 +46,7 @@ def main():
         misc.unknownCommand(CONFIG)
         return
     else:
-        commandMap[command](CONFIG)
+        commandMap[command](CONFIG, arguments)
         return
     
 

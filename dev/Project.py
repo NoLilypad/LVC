@@ -1,9 +1,9 @@
 import os
 import shutil 
-
+import csv
 
 class Project:
-    def __init__(self, workingDirectory, hashAlgorithm):
+    def __init__(self, workingDirectory, hashAlgorithm='sha256'):
         self.projectDirectory = workingDirectory
         self.hashAlgorithm = hashAlgorithm
         self.lvcDirectory = os.path.join(workingDirectory,'.lvc')
@@ -20,14 +20,14 @@ class Project:
     def __str__(self):
         return self.projectDirectory
     
-    def build(self):
+    def write(self):
         os.mkdir(self.lvcDirectory)
         os.mkdir(self.versionsDirectory)
         os.mkdir(self.objectsDirectory)
         with open(self.projectFile,'w') as file:
             file.writelines('')
         with open(self.headFile,'w') as file:
-            file.writelines('')
+            file.writelines('INIT_ANCESTOR')
         with open(self.configFile,'w') as file:
             file.writelines('')
 
@@ -40,6 +40,10 @@ class Project:
             head = file.readline().strip()
         return head
 
+    def setHead(self, ref):
+        with open(self.headFile, 'w') as file:
+            file.writelines(ref)
+
     def getIgnorePatterns(self):
         if os.path.isfile(self.ignoreFile):
             with open(self.ignoreFile, 'r') as file:
@@ -48,8 +52,32 @@ class Project:
         else:
             return []
         
-    def addVersion(self, version):
-        pass
+    def writeVersion(self, version):
+        # Write version data in project file
+        versionData = [version.hash, version.ancestors, version.comment, version.timestamp]
+        with open(self.projectFile, 'a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(versionData)
+
+        # Creates version file in versions directory
+        versionFile = os.path.join(self.versionsDirectory, version.hash)
+        with open(versionFile, 'w') as file:
+            writer = csv.writer(file)
+            for element in version.elements:
+                writer.writerow([element.hash, element.path])
 
 
+        # Creates elements in objects directory
+        for element in version.elements:
+            with open(element.path, 'rb') as file:
+                data = file.readlines()
+            with open(os.path.join(self.objectsDirectory, element.hash), 'wb') as file:
+                file.writelines(data)
 
+
+    def getVersions(self):
+        data = []
+        with open (versionPath,'r',newline='') as file:
+            reader = csv.reader(file)
+            for line in reader:
+                data.append(line)

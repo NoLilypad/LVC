@@ -5,7 +5,7 @@ from Project import Project
 from Version import Version
 
 
-def version(CONFIG):
+def addVersion(CONFIG, arguments):
     workingDirectory = os.getcwd()
     hashAlgorithm = CONFIG['HASH_ALGO'] 
     
@@ -15,13 +15,21 @@ def version(CONFIG):
         print('No LVC project in current directory')
         return
     
+    if len(arguments) >= 1:
+        comment = arguments[0]
+    else:
+        comment = ''
+
+    
     head = project.getHead()
 
-    version = Version(head, project)
+    version = Version(head, comment, project)
 
     version.create(workingDirectory)
 
-    # project.writeVersion(version)
+    version.generateHash()
 
+    project.writeVersion(version)
 
+    project.setHead(version.hash)
 

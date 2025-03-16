@@ -3,10 +3,11 @@ import os
 from Project import Project
 
 
-def remove(CONFIG):    
+def removeProject(CONFIG, arguments):    
     workingDirectory = os.getcwd()
-
-    project = Project(workingDirectory)
+    hashAlgorithm = CONFIG['HASH_ALGO'] 
+    
+    project = Project(workingDirectory, hashAlgorithm)
     
     if not project:
         print('No LVC project in current directory')
