@@ -130,7 +130,7 @@ Performance difference between Pyinstaller and Cython builds using [hyperfine](h
 ### Priority
 
 - [X] Modifiy version to store directly hashID
-- [ ] Fix ancestors storage
+- [X] Fix ancestors storage
 - [ ] Write pseudocode for merge and see if it can directly include finding ancestors recursively
 - [X] Add caching
 - [X] Add linking between versions
@@ -144,6 +144,7 @@ Performance difference between Pyinstaller and Cython builds using [hyperfine](h
 - [X] Automate C compilation
 
 ### Long-term
+- [ ] Add branch system
 - [ ] Add remote access
 - [ ] Add merging functionality
 - [ ] Add autocompletion 

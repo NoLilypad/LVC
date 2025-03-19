@@ -1,6 +1,7 @@
 import os
 import shutil 
 import csv
+import ast
 
 from Version import Version
 
@@ -84,6 +85,6 @@ class Project:
         with open (self.projectFile,'r',newline='') as file:
             reader = csv.reader(file)
             for line in reader:
-                version = Version(ancestors=line[2], project=self, comment=line[3], timestamp=line[4], hash=line[0], hashID=line[1])
+                version = Version(ancestors=ast.literal_eval(line[2]), project=self, comment=line[3], timestamp=line[4], hash=line[0], hashID=line[1])
                 versions.append(version)
         return(versions)
