@@ -123,7 +123,9 @@ Performance difference between Pyinstaller and Cython builds using [hyperfine](h
 [Benchmark result](misc/benchmark.png)
 
 
+## Known issues
 
+- Does not preserve file permissions
 
 ## TODO
 

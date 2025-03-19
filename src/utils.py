@@ -18,5 +18,28 @@ def isProjectVersioned(project: Project):
 
     return localVersion.elements == headVersion.elements
 
+
+
+
+# def getAncestorsof2(A,B):
+#     return ANCESTORS
+
+# def merge2versions(A, B, COMMON):
+#     return MERGED
+
+# def mergeVersions(versions):
+
+
+#     C = versions.pop()
+
+#     while len(versions) > 2:
+#         D = versions.pop()
+#         ANCESTORS = getAncestorsof2(C,D)
+#         COMMON = mergeVersions(ANCESTORS)
+
+#         C = merge2versions(C,D, COMMON)
     
+#     return C
+
+
     
