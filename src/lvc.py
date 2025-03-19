@@ -8,6 +8,7 @@ import listVersions
 import switchVersions
 import help
 import merge
+import test
 
 CONFIG = {
     'VERSION': '3.0',
@@ -25,7 +26,8 @@ def loadCommands():
         listVersions.listVersions: ['list','l'],
         switchVersions.switchVersions: ['switch','s'],
         help.help: ['help','h'],
-        merge.merge: ['merge', 'm']
+        merge.merge: ['merge', 'm'],
+        test.test: ['test','t']
     }
 
     # Créer un dictionnaire pour mapper chaque commande/alias à sa fonction

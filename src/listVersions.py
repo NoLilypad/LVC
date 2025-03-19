@@ -19,15 +19,8 @@ def listVersions(CONFIG, arguments):
 
     # Formatting versions data to print
     formattedData = []
-    IdBuffer = []
     for version in versions:
-        idLength = 8
-        versionId = version.hash[:idLength]
-        while versionId in IdBuffer:
-            idLength += 1
-            versionId = version.hash[:idLength]
-        versionId = versionId + ' ' * (10 - len(versionId))    # Prendre en compte le changement de tailler pour l'espacement des string
-        IdBuffer.append(versionId)
+        versionId = version.hashID + ' ' * (10 - len(version.hashID))    
         comment = version.comment
         created = datetime.fromtimestamp(int(float(version.timestamp)))
         createdFormatted = created.strftime('%Y-%m-%d %H:%M:%S')

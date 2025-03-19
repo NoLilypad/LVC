@@ -4,7 +4,7 @@ from Project import Project
 from Version import Version
 
 
-def isCurrentDirectoryVersioned(project: Project):
+def isProjectVersioned(project: Project):
     head = project.getHead()
     projectDirectory = project.projectDirectory
     ignorePatterns = project.getIgnorePatterns()

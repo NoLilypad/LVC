@@ -8,6 +8,7 @@ class Project:
     def __init__(self, workingDirectory, hashAlgorithm='sha256'):
         self.projectDirectory = workingDirectory
         self.hashAlgorithm = hashAlgorithm
+
         self.lvcDirectory = os.path.join(workingDirectory,'.lvc')
         self.projectFile = os.path.join(self.lvcDirectory,'project')
         self.versionsDirectory = os.path.join(self.lvcDirectory,'versions')
@@ -21,6 +22,7 @@ class Project:
 
     def __str__(self):
         return self.projectDirectory
+         
     
     def write(self):
         os.mkdir(self.lvcDirectory)
@@ -56,7 +58,7 @@ class Project:
         
     def writeVersion(self, version):
         # Write version data in project file
-        versionData = [version.hash, version.ancestors, version.comment, version.timestamp]
+        versionData = [version.hash, version.hashID, version.ancestors, version.comment, version.timestamp]
         with open(self.projectFile, 'a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(versionData)
@@ -82,6 +84,6 @@ class Project:
         with open (self.projectFile,'r',newline='') as file:
             reader = csv.reader(file)
             for line in reader:
-                version = Version(ancestors=line[1], project=self, comment=line[2], timestamp=line[3], hash=line[0])
+                version = Version(ancestors=line[2], project=self, comment=line[3], timestamp=line[4], hash=line[0], hashID=line[1])
                 versions.append(version)
         return(versions)

@@ -26,7 +26,7 @@ def merge(CONFIG, arguments):
         print('Not a version')
         return
     
-    if not utils.isCurrentDirectoryVersioned(project): 
+    if not utils.isProjectVersioned(project): 
         print('Project directory not updated to a version \n<lvc v> to create a new version')
         return
     
