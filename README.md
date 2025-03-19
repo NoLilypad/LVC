@@ -2,12 +2,6 @@
 
 A simple local code version control manager made with Python that can be run as such or easily built into an executable.
 
-## Short TODO for merge
-
-- Fix the ancestors version storage
-- Create version A in merge
-- Write pseudocode for merge and see if it can directly include finding ancestors recursively
-
 ## Installation
 
 Clone the repo
@@ -126,7 +120,7 @@ Made with [https://www.text-tree-generator.com/](https://www.text-tree-generator
 
 Performance difference between Pyinstaller and Cython builds using [hyperfine](https://github.com/sharkdp/hyperfine) : 
 
-![alt_text](misc/benchmark.png)
+[Benchmark result](misc/benchmark.png)
 
 
 
@@ -135,9 +129,13 @@ Performance difference between Pyinstaller and Cython builds using [hyperfine](h
 
 ### Priority
 
+- [ ] Modifiy version to store directly 
+- [ ] Fix ancestors storage
+- [ ] Write pseudocode for merge and see if it can directly include finding ancestors recursively
 - [X] Add caching
-- [ ] Add linking between versions
+- [X] Add linking between versions
 - [X] Add ignore method
+
 
 ### Misc
 
