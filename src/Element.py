@@ -6,6 +6,12 @@ class Element:
         self.hashAlgorithm = hashAlgorithm
         self.hash = ''
 
+    # Redefined eq to compare Elements based on their attributes and not their reference
+    def __eq__(self, other):
+        if isinstance(other, Element):
+            return self.hash == other.hash and self.path == other.path
+        return False
+
     def generateHash(self):
         hashFunction = hashlib.new(self.hashAlgorithm)
         with open(self.path,'rb') as file:

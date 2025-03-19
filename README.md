@@ -2,6 +2,12 @@
 
 A simple local code version control manager made with Python that can be run as such or easily built into an executable.
 
+## Short TODO for merge
+
+- Fix the ancestors version storage
+- Create version A in merge
+- Write pseudocode for merge and see if it can directly include finding ancestors recursively
+
 ## Installation
 
 Clone the repo
