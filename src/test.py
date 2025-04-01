@@ -4,6 +4,7 @@ import shutil
 from Project import Project
 from Version import Version
 
+from utils import find_closest_common_ancestors
 
 def test(CONFIG, arguments):
     workingDirectory = os.getcwd()
@@ -17,6 +18,6 @@ def test(CONFIG, arguments):
     
     versions = project.getVersions()
     for version in versions:
-        # version.addElementsFromVersionFile(os.path.join(project.versionsDirectory, version.hash))
-        # version.generateHash()
         print(version.hashID)
+
+    find_closest_common_ancestors(versions[0], versions[1], project)

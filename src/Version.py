@@ -15,6 +15,9 @@ class Version:
         self.hashID = hashID
         self.timestamp = timestamp
 
+    def __str__(self):
+        return(self.hash)
+
     def generateHash(self):
         # Generate version hash
         hashFunction = hashlib.new(self.project.hashAlgorithm)

@@ -9,18 +9,21 @@ def home(CONFIG):
     
     project = Project(workingDirectory, hashAlgorithm)
 
+    print(f"[LVC] LVC version {CONFIG['VERSION']} Type 'lvc help' or 'lvc h' for help ")
+
     if not project:
         print('[NO] No project in current directory')
     else:
         print(f'[INIT] Project initialized at : {workingDirectory}')
         if isProjectVersioned(project):
-            print('[UP] Project directory versionned')
+            print('[UP]   Project directory versionned')
+            head = project.getHead()
+            print(f'[HEAD] {head}')
         else:
             print('[LATE] Project directory not up to last version')
 
 
 
-    print(f" LVC version {CONFIG['VERSION']} Type 'lvc help' or 'lvc h' for help ")
 
 
 def unknownCommand(CONFIG):
