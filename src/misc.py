@@ -15,7 +15,7 @@ def home(CONFIG):
         print('[NO] No project in current directory')
     else:
         print(f'[INIT] Project initialized at : {workingDirectory}')
-        if isProjectVersioned(project):
+        if project.isVersioned():
             print('[UP]   Project directory versionned')
             head = project.getHead()
             print(f'[HEAD] {head}')

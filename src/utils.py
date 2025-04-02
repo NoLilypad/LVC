@@ -63,26 +63,3 @@ def find_closest_common_ancestors(version1, version2, project):
     return common_ancestors
 
 
-
-# def getAncestorsof2(A,B):
-#     return ANCESTORS
-
-# def merge2versions(A, B, COMMON):
-#     return MERGED
-
-# def mergeVersions(versions):
-
-
-#     C = versions.pop()
-
-#     while len(versions) > 1:
-#         D = versions.pop()
-#         ANCESTORS = getAncestorsof2(C,D)
-#         COMMON = mergeVersions(ANCESTORS)
-
-#         C = merge2versions(C,D, COMMON)
-    
-#     return C
-
-
-    

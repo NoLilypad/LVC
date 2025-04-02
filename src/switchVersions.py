@@ -24,26 +24,24 @@ def switchVersions(CONFIG, arguments):
         return
 
     versions = project.getVersions()
-
     # Find a better way
     version = False
     for ver in versions:
-        if ver.hash.startswith(versionId):
+        if ver.hashID == versionId:
             version = ver
             break
     if version == False:
         print('Not a version')
         return
     
-    versionFile = os.path.join(project.versionsDirectory, version.hash)
     
-    version.addElementsFromVersionFile(versionFile)
-    
-    localVersion = Version(['Placeholder'],'placeholder', project)
+    # localVersion = Version(['Placeholder'],'placeholder', project)
 
-    ignorePatterns = project.getIgnorePatterns()
+    # ignorePatterns = project.getIgnorePatterns()
 
-    localVersion.addElementsFromDirectory(workingDirectory, ignorePatterns)
+    # localVersion.addElementsFromDirectory(workingDirectory, ignorePatterns)
+
+    localVersion = Version.fromDirectory(workingDirectory, ['placeholder'], 'placeholder', project)
 
     for element in localVersion.elements:
         os.remove(os.path.join(workingDirectory, element.path))

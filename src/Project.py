@@ -85,6 +85,17 @@ class Project:
         with open (self.projectFile,'r',newline='') as file:
             reader = csv.reader(file)
             for line in reader:
-                version = Version(ancestors=ast.literal_eval(line[2]), project=self, comment=line[3], timestamp=line[4], hash=line[0], hashID=line[1])
+                # ast to read list from string, e.g. "['ancestor1', 'ancestor2']"
+                version = Version.fromProject(ancestors=ast.literal_eval(line[2]), comment=line[3], project=self, hash=line[0], hashID=line[1], timestamp=line[4])
                 versions.append(version)
         return(versions)
+    
+    def isVersioned(self):
+        head = self.getHead()
+        projectDirectory = self.projectDirectory
+
+        localVersion = Version.fromDirectory(projectDirectory, ['placeholder'], 'placeholder', self)
+
+        headVersion = Version.fromHash(hash=head, project=self)
+
+        return localVersion.elements == headVersion.elements

@@ -23,13 +23,7 @@ def addVersion(CONFIG, arguments):
     
     head = project.getHead()
 
-    version = Version([head], comment, project)
-
-    ignorePatterns = project.getIgnorePatterns()
-
-    version.addElementsFromDirectory(workingDirectory, ignorePatterns)
-
-    version.generateHash()
+    version = Version.fromDirectory(workingDirectory, [head], comment, project)
 
     project.writeVersion(version)
 
